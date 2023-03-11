@@ -1,11 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "cliente.h"
 
-existclient(Cliente* inicio, int id) 
+int existclient(Cliente* inicio, int id) 
 {
 	while(inicio != NULL)
 	{
@@ -13,43 +12,43 @@ existclient(Cliente* inicio, int id)
 		{
 			return(1);
 		}
-		inicio = inicio->seguinte;
+		inicio = inicio->seguinte;	
 	}
 	return(0);
 }
 
-Cliente* addclient(Cliente* inicio, char name[], char user[], char pass[], int contacto, int id, int nif, char morada[])
+
+Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[])
 {
-	if(!existclient(inicio,id))
+	Cliente* new = malloc(sizeof(struct cliente));
+	if (new != NULL)
 	{
-		Cliente* new = malloc(sizeof(struct cliente));
-		if (new != NULL)
-		{
-			new->contacto = contacto;
-			new->id = id;
-			new->nif = nif;
-			strcpy(new->name, name);
-			strcpy(new->user, user);
-			strcpy(new->pass, pass);
-			strcpy(new->morada, morada);
-			new->seguinte = inicio;
-			return(new);
-		}
-		else
-		{
-			return(inicio);
-		}
+		new->id = id;
+		strcpy(new->name, name);
+		strcpy(new->user, user);
+		strcpy(new->pass, pass);
+		new->contacto = contacto;
+		new->nif = nif;
+		strcpy(new->morada, morada);
+		new->seguinte = inicio;
+		return(new);
+	}
+	else
+	{
+		return(inicio);
 	}
 }
+
 
 void showclient(Cliente* inicio)
 {
 	while (inicio != NULL)
 	{
-		printf("%s %s %s %d %d %d %s\n", inicio->name, inicio->user, inicio->pass, inicio->contacto, inicio->id, inicio->nif, inicio->morada);
+		printf("%d %s %s %s %d %d %s\n", inicio->id, inicio->name, inicio->user, inicio->pass, inicio->contacto, inicio->nif, inicio->morada);
 		inicio = inicio->seguinte;
 	}
 }
+
 
 
 int saveclient(Cliente* inicio)
@@ -63,7 +62,7 @@ int saveclient(Cliente* inicio)
 		Cliente* ci = inicio;
 		while (ci != NULL)
 		{
-			fprintf(fp, "%s;%s;%s;%d;%d;%d;%s\n", ci->name, ci->user, ci->pass, ci->contacto, ci->id, ci->nif, ci->morada);
+			fprintf(fp, "%d;%s;%s;%s;%d;%d;%s\n", ci->id, ci->name, ci->user, ci->pass, ci->contacto, ci->nif, ci->morada);
 			ci = ci->seguinte;
 		}
 		fclose(fp);
@@ -88,12 +87,87 @@ Cliente* readclient()
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%[^;]%[^;]%[^;]%d;%d;%d;%[^\n]\n", na, us, pa, co, i, ni, mo);
-			ci = addclient(ci, na, us, pa, co, i, ni, mo);
+			fscanf(fp, "%d;%[^;];%[^;];%[^;];%d;%d;%[^\n]\n", &i,&na,&us,&pa,&co,&ni,&mo);
+			ci = addclient(ci, i, na, us, pa, co, ni, mo);
 		}
 		fclose(fp);
 	}
 	return(ci);
 }
+
+
+Cliente* removeclient(Cliente* inicio, int id)
+{
+	Cliente *atual = inicio, *anterior = inicio, *aux;
+
+	if (inicio == NULL)
+	{
+		return(NULL);
+	}
+	else if(atual->id == id)
+	{
+		aux = atual->seguinte;
+		free(atual);
+		printf("client removed\n");
+		return (aux);
+	}
+	else
+	{
+		while ((atual != NULL) && (atual->id != id))
+		{
+			anterior = atual;
+			atual = atual->seguinte;	
+		}
+		if (atual == NULL)return(inicio);
+		else
+		{
+			anterior->seguinte = atual->seguinte;
+			free(atual);
+			printf("client removed\n");
+			return(inicio);
+		}
+	}
+
+}
+
+
+/*
+Cliente* removeclient(Cliente* inicio, int id) // Remover um meio a partir do seu código
+{
+	Cliente* aux;
+	while (inicio != NULL)
+	{
+		if (inicio->id == id)
+		{
+			aux = inicio->seguinte;
+			free(inicio);
+			return(aux);
+		}
+		else {
+			inicio = removeclient(inicio->seguinte, id);
+			return(inicio);
+		}
+	}
+}
+*/
+
+int loginclient(Cliente* inicio,char user[],char pass[])
+{
+	while (inicio != NULL)
+	{
+		if(strstr(inicio->user,user) && strstr(inicio->pass,pass))
+		{
+			printf("Login successful!\n");
+			return(1);
+		}
+		else
+		{
+			printf("login unsuccessful!\n");
+			exit(0);
+			return(0);
+		}
+	}
+}
+
 
 
