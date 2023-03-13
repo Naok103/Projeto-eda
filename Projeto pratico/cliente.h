@@ -9,15 +9,17 @@ typedef struct cliente
 	char pass[50];
 	int contacto;
 	int nif;
+	float saldo;
 	char morada[50];
 	struct cliente* seguinte;
 }Cliente;
 
 int loginclient(Cliente* inicio, char user[], char pass[]);
 Cliente* removeclient(Cliente* inicio, int id);
-Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[]);
+Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[], float saldo);
 void showclient(Cliente* inicio);
 int existclient(Cliente* inicio, int id[]);
-Cliente* changeclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[]);
+Cliente* changeclient(Cliente* inicio, int id);
 int saveclient(Cliente* inicio);  
 Cliente* readclient();
+Cliente* addbalance(Cliente* inicio, int id, float saldo);

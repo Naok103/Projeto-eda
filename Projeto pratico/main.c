@@ -31,6 +31,7 @@ int menuC2()
 	printf("|2- Change client         |\n");
 	printf("|3- Save client           |\n");
 	printf("|4- Show client           |\n");
+	printf("|5- Add a balance         |\n");
 	printf("|6- Rent a mobility mean  |\n");
 	printf("|0- Exit                  |\n");
 	printf(" -------------------------\n");
@@ -65,7 +66,6 @@ int menuG()
 }
 
 
-
 void clear() 
 {
 	system("@cls || clear");
@@ -76,6 +76,7 @@ int main()
 	Cliente* client = NULL;
 	client = readclient(client);
 	int id, contacto, nif, rid;
+	float saldo = 0;
 	char name[50], user[50], morada[50], pass[50];
 	//Gestor* manager = NULL;
 	//Mobilidade* meio = NULL;
@@ -108,7 +109,7 @@ int main()
 			printf("whats your adress?\n");
 			scanf("%*c");
 			gets(morada);
-			client = addclient(client, id, name, user, pass, contacto, nif, morada);
+			client = addclient(client, id, name, user, pass, contacto, nif, morada, saldo);
 			break;
 		case 2:
 			printf("whats your username?\n");
@@ -125,34 +126,41 @@ int main()
 		do
 		{
 			op = menuC2();
-			clear();
 			switch (op)
 			{
 			case 1:
 				printf("whats the id of account you wanna remove?\n");
 				scanf("%d", &rid);
 				client = removeclient(client, rid);
+				clear();
 				break;
 			case 2:
+				printf("whats your id?\n");
+				scanf("%d", &id);
+				client = changeclient(client, id);
+				clear();
 				break;
 			case 3:
 				saveclient(client);
+				clear();
 				break;
 			case 4:
 				showclient(client);
 				break;
 			case 5:
+				printf("whats your id?\n");
+				scanf("%d",&id);
+				printf("How much do you wanna add to your balance?\n");
+				scanf("%f", &saldo);
+				client = addbalance(client, id, saldo);
 				break;
 			case 6:
-				break;
-			case 0:
-				exit(0);
 				break;
 			default:
 				break;
 			}
 		} while (op != 0);
-		//saveclient(client);
+		saveclient(client);
 	}
 	else if (c == 1) 
 	{
