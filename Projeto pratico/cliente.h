@@ -19,7 +19,7 @@ Cliente* removeclient(Cliente* inicio, int id);
 Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[], float saldo);
 void showclient(Cliente* inicio);
 int existclient(Cliente* inicio, int id[]);
-Cliente* changeclient(Cliente* inicio, int id);
+void changeclient(Cliente* inicio, int id);
 int saveclient(Cliente* inicio);  
 Cliente* readclient();
 Cliente* addbalance(Cliente* inicio, int id, float saldo);

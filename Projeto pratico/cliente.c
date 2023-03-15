@@ -45,7 +45,7 @@ void showclient(Cliente* inicio)
 {
 	while (inicio != NULL)
 	{
-		printf("%d %s %s %s %d %d %s %.2f\n", inicio->id, inicio->name, inicio->user, inicio->pass, inicio->contacto, inicio->nif, inicio->morada, inicio->saldo);
+		printf("ID: %d; Name: %s; User: %s; Pass: %s; Phonenumber: %d; NIF: %d; Adress: %s; Balance: %.2f\n", inicio->id, inicio->name, inicio->user, inicio->pass, inicio->contacto, inicio->nif, inicio->morada, inicio->saldo);
 		inicio = inicio->seguinte;
 	}
 }
@@ -56,14 +56,14 @@ int saveclient(Cliente* inicio)
 {
 	FILE* fp;
 
-	fp = fopen("Cliente", "w");
+	fp = fopen("Cliente.txt", "w");
 
 	if (fp != NULL)
 	{
 		Cliente* ci = inicio;
 		while (ci != NULL)
 		{
-			fprintf(fp, "%d;%s;%s;%s;%d;%d;%s;%.2f\n", ci->id, ci->name, ci->user, ci->pass, ci->contacto, ci->nif, ci->morada, ci->saldo);
+			fprintf(fp, "%d;%s;%s;%s;%d;%d;%s;%f\n", ci->id, ci->name, ci->user, ci->pass, ci->contacto, ci->nif, ci->morada, ci->saldo);
 			ci = ci->seguinte;
 		}
 		fclose(fp);
@@ -75,12 +75,13 @@ int saveclient(Cliente* inicio)
 	}
 }
 
+
 Cliente* readclient()
 {
 	FILE* fp;
 	Cliente* ci = NULL;
 
-	fp = fopen("Cliente", "r");
+	fp = fopen("Cliente.txt", "r");
 	int ni = 0, i = 0, co = 0, sa = 0;
 	char na[50], pa[50], us[50], mo[50];
 
@@ -88,7 +89,7 @@ Cliente* readclient()
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%d;%[^;];%[^;];%[^;];%d;%d;%[^;];%.2f\n", &i,&na,&us,&pa,&co,&ni,&mo,&sa);
+			fscanf(fp, "%d;%[^;];%[^;];%[^;];%d;%d;%[^;];%f\n", &i,&na,&us,&pa,&co,&ni,&mo,&sa);
 			ci = addclient(ci, i, na, us, pa, co, ni, mo,sa);
 		}
 		fclose(fp);
@@ -132,78 +133,58 @@ Cliente* removeclient(Cliente* inicio, int id)
 }
 
 
-/*
-Cliente* removeclient(Cliente* inicio, int id) // Remover um meio a partir do seu código
-{
-	Cliente* aux;
-	while (inicio != NULL)
-	{
-		if (inicio->id == id)
-		{
-			aux = inicio->seguinte;
-			free(inicio);
-			return(aux);
-		}
-		else {
-			inicio = removeclient(inicio->seguinte, id);
-			return(inicio);
-		}
-	}
-}
-*/
-
 int loginclient(Cliente* inicio,char user[],char pass[])
 {
-	while (inicio != NULL)
+	for(inicio;inicio != NULL;inicio = inicio->seguinte)
 	{
-		if(strstr(inicio->user,user) && strstr(inicio->pass,pass))
+		if (strstr(inicio->user, user) && strstr(inicio->pass, pass))
 		{
 			printf("Login successful!\n");
 			return(1);
 		}
-		else
-		{
-			printf("login unsuccessful!\n");
-			exit(0);
-			return(0);
-		}
 	}
+	
+	printf("login unsuccessful!\n");
+	exit(0);
+	return(0);
 }
 
-Cliente* changeclient(Cliente* inicio, int id)
+void changeclient(Cliente* inicio, int id)
 {
+	Cliente* atual = inicio;
+	char novo_nome[50];
 	char name[50], morada[50], user[50], pass[50];
 	int nif=0, contacto=0, op=0;
 	while (inicio != NULL)
 	{
-		if (inicio->id == id) 
+		if(inicio->id == id)
 		{
 			printf("what do you wanna change?\n");
 			printf("1-name\n2-username\n3-password\n4-adress\n5-nif\n6-phonenumber\n");
-			scanf("%d", op);
+			scanf("%d", &op);
 			switch (op)
 			{
 			case 1:
 				printf("Digit the new name!\n");
-				scanf("%s", &name);
-				strcpy(inicio->name, name);
+				scanf("%s", name);
+				strcpy(atual->name, novo_nome);
 				return(inicio);
 				break;
 			case 2:
 				printf("Digit the new username!\n");
-				scanf("%s", &user);
+				scanf("%s", user);
 				strcpy(inicio->user, user);
 				return(inicio);
 				break;
 			case 3:
 				printf("Digit the new pass!\n");
-				scanf("%s", &pass);
+				scanf("%s", pass);
 				strcpy(inicio->pass, pass);
 				return(inicio);
 				break;
 			case 4:
 				printf("Digit the new adress!\n");
-				scanf("%s", &morada);
+				scanf("%s", morada);
 				strcpy(inicio->morada, morada);
 				return(inicio);
 				break;
@@ -216,7 +197,7 @@ Cliente* changeclient(Cliente* inicio, int id)
 			case 6:
 				printf("Digit the new phonenumber!\n");
 				scanf("%d ", &contacto);
-				inicio->contacto =contacto;
+				inicio->contacto = contacto;
 				return(inicio);
 				break;
 			}
@@ -225,6 +206,8 @@ Cliente* changeclient(Cliente* inicio, int id)
 		{
 			inicio = inicio->seguinte;
 		}
+		
+			
 	}
 }
 
@@ -244,6 +227,5 @@ Cliente* addbalance(Cliente* inicio, int id, float saldo)
 
 	}
 }
-
 
 

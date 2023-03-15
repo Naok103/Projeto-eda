@@ -1,24 +1,22 @@
 #pragma once
 #include <stdio.h>
 
+
 typedef struct gestor {
 	char nome[50];
-	char pass[50];
-	char user[50];
-	int id[10];
-	int contacto[10];
+	int id;
+	int contacto;
 	char mail[50];
 	struct gestor* seguinte;
 }Gestor;
 
-Gestor* addGestor(Gestor* inicio, char nome[], char pass[], char user[], int id[], int contacto[], char mail[]);
+int loginManager(char user[], char pass[]);
+Gestor* addManager(Gestor* inicio, char nome[], int id, int contacto, char mail[]);
+int saveManager(Gestor* inicio);
+void changeManager(Gestor* inicio, int id);
+Gestor* readManager();
+Gestor* removeManager(Gestor* inicio, int id);
+void showManager(Gestor* inicio);
+int existManager(Gestor* inicio, int id);
 
-Gestor* saveGestor(Gestor* inicio, char nome[], char pass[], char user[], int id[], int contacto[], char mail[]);
 
-Gestor* changeGestor(Gestor* inicio, char nome[], char pass[], char user[], int id[], int contacto[], char mail[]);
-
-Gestor* readGestor(Gestor* inicio, char nome[], char pass[], char user[], int id[], int contacto[], char mail[]);
-
-void listarGestor(Gestor* inicio);
-
-Gestor* removeGestor(Gestor* inicio, int id[]);
