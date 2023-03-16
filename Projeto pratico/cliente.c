@@ -200,6 +200,9 @@ void changeclient(Cliente* inicio, int id)
 				inicio->contacto = contacto;
 				return(inicio);
 				break;
+			default:
+				exit(0);
+				break;
 			}
 		}
 		else

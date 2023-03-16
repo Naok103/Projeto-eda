@@ -88,9 +88,9 @@ Gestor* removeManager(Gestor* inicio, int id)
 
 void showManager(Gestor* inicio)
 {
-	while (inicio != inicio)
+	while (inicio != NULL)
 	{
-		printf("Name: %s;ID: %d;Email: %s;Phonenumber: %d;", inicio->nome, inicio->id, inicio->mail, inicio->contacto);
+		printf("Name: %s;ID: %d;Email: %s;Phonenumber: %d;\n", inicio->nome, inicio->id, inicio->mail, inicio->contacto);
 		inicio = inicio->seguinte;
 	}
 }
@@ -99,7 +99,7 @@ void changeManager(Gestor* inicio, int id)
 {
 	Gestor* atual = inicio;
 	char name[50], mail[50];
-	int nif = 0, contacto = 0, op = 0;
+	int contacto = 0, op = 0;
 	while (inicio != NULL)
 	{
 		if (inicio->id == id)
@@ -126,6 +126,9 @@ void changeManager(Gestor* inicio, int id)
 				scanf("%d ", &contacto);
 				inicio->contacto = contacto;
 				return(inicio);
+				break;
+			default:
+				exit(0);
 				break;
 			}
 		}
@@ -174,7 +177,7 @@ Gestor* readManager()
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%d;%[^;];%[^\n]\n", &i, &na, &co, &ma);
+			fscanf(fp, "%d;%[^;];%d;%[^\n]\n", &i, &na, &co, &ma);
 			ci = addManager(ci, na, i, co, ma);
 		}
 		fclose(fp);
