@@ -25,16 +25,17 @@ int menuC1()
 int menuC2()
 {
 	int op;
-	printf(" -----------------------\n");
-	printf("|       Menu client     |\n");
-	printf("|1- Remove client       |\n");
-	printf("|2- Change client       |\n");
-	printf("|3- Show client         |\n");
-	printf("|4- Add a balance       |\n");
-	printf("|5- Rent a vehicle      |\n");
-	printf("|6- Return a vehicle    |\n");
-	printf("|0- Exit                |\n");
-	printf(" -----------------------\n");
+	printf(" ---------------------------\n");
+	printf("|       Menu client         |\n");
+	printf("|1- Remove client           |\n");
+	printf("|2- Change client           |\n");
+	printf("|3- Show client             |\n");
+	printf("|4- Show client historic    |\n");
+	printf("|5- Add a balance           |\n");
+	printf("|6- Rent a vehicle          |\n");
+	printf("|7- Return a vehicle        |\n");
+	printf("|0- Exit                    |\n");
+	printf(" ---------------------------\n");
 	scanf("%d", &op);
 	return (op);
 }
@@ -57,19 +58,21 @@ int menuG()
 int menuM()
 {
 	int op;
-	printf(" =============================\n");
-	printf("|         Menu Manager        |\n");
-	printf("|1- Add vehicle               |\n");
-	printf("|2- Remove vehicle            |\n");
-	printf("|3- Change vehicle            |\n");
-	printf("|4- Show vehicle              |\n");
-	printf("|5- Add client                |\n");
-	printf("|6- Remove client             |\n");
-	printf("|7- Show client               |\n");
-	printf("|8- Change client             |\n");
-	printf("|9- Add balance to a client   |\n");
-	printf("|0- Exit                      |\n");
-	printf(" =============================\n");
+	printf(" ==============================\n");
+	printf("|         Menu Manager         |\n");
+	printf("|1- Add vehicle                |\n");
+	printf("|2- Remove vehicle             |\n");
+	printf("|3- Change vehicle             |\n");
+	printf("|4- Show vehicle               |\n");
+	printf("|5- Order vehicle              |\n");
+	printf("|6- Add client                 |\n");
+	printf("|7- Remove client              |\n");
+	printf("|8- Show client                |\n");
+	printf("|9- Change client              |\n");
+	printf("|10- Add balance to a client   |\n");
+	printf("|11- Show client historic      |\n");
+	printf("|0- Exit                       |\n");
+	printf(" ==============================\n");
 	scanf("%d", &op);
 	return(op);
 
@@ -84,19 +87,24 @@ void clear()
 int main()
 { 
 	Cliente* client = NULL;
-	client = readclient();
+	client = readclientB();
+	//client = readclient();
 	int id_c, contacto_c, nif, rid;
 	float saldo = 0;
 	char name_c[50], user[50], morada[50], pass[50];
 	Gestor* manager = NULL;
-	manager = readManager();
+	//manager = readManager();
+	manager = readManagerB();
 	char mail[50], name_g[50];
 	int id_g, contacto_g;
 	Mobilidade* meios = NULL;
-	meios = readVehicle();
-	int id_m;
+	//meios = readVehicle();
+	meios = readVehicleB();
+	int id_m, id_r = 0, r = 0;
 	char meio[50], localizaçao[50];
 	float bat, aut, custo;
+	Historico* historico = NULL;
+	historico = readHistoricB();
 	int op = 0, c;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -106,6 +114,7 @@ int main()
 
 	if (c == 2) 
 	{
+		
 		op = menuC1();
 		clear();
 		switch (op)
@@ -142,6 +151,7 @@ int main()
 			printf("Choose an given opcion!!");
 			break;
 		}
+		
 		clear();
 		do
 		{
@@ -165,22 +175,48 @@ int main()
 				showclient(client);
 				break;
 			case 4:
+				printf("Whats your id?\n");
+				scanf("%d", &id_c);
+				showHistoric(historico, id_c);
+				break;
+			case 5:
 				printf("whats your id?\n");
 				scanf("%d", &id_c);
 				printf("How much do you wanna add to your balance?\n");
 				scanf("%f", &saldo);
 				client = addbalance(client, id_c, saldo);
 				break;
-			case 5:
-				break;
 			case 6:
+				showVehicleD(meios);
+				printf("Whats the id of the vehicle you wanna reserve?\n");
+				scanf("%d", &id_m);
+				printf("Whats your id?\n");
+				scanf("%d", &id_c);
+				meios = reserveVehicle(meios, id_m, id_c);
+				historico = addHistoric(historico, meios, id_c, id_m);
+				break;
+			case 7:
+				showVehicleR(meios);
+				printf("Whats the id of the vehicle you wanna reserve?\n");
+				scanf("%d", &id_m);
+				printf("Whats your id?\n");
+				scanf("%d", &id_c);
+				meios = returnVehicle(meios, id_m, id_c);
+				break;
+			case 0:
+				saveclient(client);
+				saveclientB(client);
+				saveVehicle(meios);
+				saveVehicleB(meios);
+				saveHistoricB(historico);
+				saveHistoric(historico);
+				exit(0);
 				break;
 			default:
 				printf("Choose an given opcion!!");
 				break;
 			}
-		} while (op != 0);
-		saveclient(client);
+		} while (op != 0);	
 	}
 	else if (c == 1) 
 	{
@@ -236,10 +272,11 @@ int main()
 					exit(0);
 					break;
 				default:
+					printf("Choose an given option!");
 					break;
 				}
-
 				saveManager(manager);
+				saveManagerB(manager);
 			}
 			else if (opcao == 2)
 			{
@@ -259,7 +296,7 @@ int main()
 					scanf("%d", &id_m);
 					printf("Whats teh cost of the vehicle?\n");
 					scanf("%f", &custo);
-					meios = addVehicle(meios, meio, localizaçao, id_m, bat, aut, custo);
+					meios = addVehicle(meios, meio, localizaçao, id_m, bat, aut, custo, id_r, r);
 					break;
 				case 2:
 					printf("Whats the id pf the vehicle you wanna remove?\n");
@@ -275,6 +312,10 @@ int main()
 					showVehicle(meios);
 					break;
 				case 5:
+					orderVehicle(meios);
+					showVehicle(meios);
+					break;
+				case 6:
 					printf("write an id?\n");
 					scanf("%d", &id_c);
 					printf("whats your name?\n");
@@ -292,41 +333,46 @@ int main()
 					gets(morada);
 					client = addclient(client, id_c, name_c, user, pass, contacto_c, nif, morada, saldo);
 					break;
-				case 6:
+				case 7:
 					printf("whats the id of account you wanna remove?\n");
 					scanf("%d", &rid);
 					client = removeclient(client, rid);
 					clear();
 					break;
-				case 7:
+				case 8:
 					showclient(client);
 					break;
-				case 8:
+				case 9:
 					printf("whats your id?\n");
 					scanf("%d", &id_c);
 					changeclient(client, id_c);
 					clear();
 					break;
-				case 9:
+				case 10:
 					printf("whats your id?\n");
 					scanf("%d", &id_c);
 					printf("How much do you wanna add to your balance?\n");
 					scanf("%f", &saldo);
 					client = addbalance(client, id_c, saldo);
 					break;
+				case 11:
+					printf("Whats your id?\n");
+					scanf("%d", &id_c);
+					//showHistoric(historico, id_c);
+					break;
 				case 0:
 					exit(0);
 					break;
 				default:
+					printf("Choose an given option!");
 					break;
 				}
-
 				saveVehicle(meios);
+				saveVehicleB(meios);
 				saveclient(client);
+				saveclientB(client);
 			}
-		} while (opcao != 0);
-		
+		} while (opcao != 0);	
 	}
-
 	return(0);
 }

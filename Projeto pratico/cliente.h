@@ -23,3 +23,7 @@ void changeclient(Cliente* inicio, int id);
 int saveclient(Cliente* inicio);  
 Cliente* readclient();
 Cliente* addbalance(Cliente* inicio, int id, float saldo);
+void saveclientB(Cliente* inicio);
+Cliente* readclientB();
+
+

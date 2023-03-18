@@ -185,5 +185,40 @@ Gestor* readManager()
 	return(ci);
 }
 
+Gestor* readManagerB()
+{
+	FILE* fp;
+	Gestor* aux = NULL;
+	fp = fopen("gestor.bin", "rb");
+
+	if (fp != NULL)
+	{
+		Gestor current;
+		while (fread(&current, sizeof(Gestor), 1, fp) == 1)
+		{
+			aux = addManager(aux, current.nome, current.id, current.contacto, current.mail);
+		}
+		fclose(fp);
+	}
+	return aux;
+}
+
+void saveManagerB(Gestor* inicio)
+{
+	FILE* fp;
+
+	fp = fopen("gestor.bin", "wb");
+
+	if (fp != NULL)
+	{
+		Gestor* aux = inicio;
+		while (aux != NULL)
+		{
+			fwrite(aux, sizeof(Gestor), 1, fp);
+			aux = aux->seguinte;
+		}
+		fclose(fp);
+	}
+}
 
 

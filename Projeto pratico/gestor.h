@@ -18,5 +18,6 @@ Gestor* readManager();
 Gestor* removeManager(Gestor* inicio, int id);
 void showManager(Gestor* inicio);
 int existManager(Gestor* inicio, int id);
-
+void saveManagerB(Gestor* inicio);
+Gestor* readManagerB();
 

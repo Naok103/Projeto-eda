@@ -75,6 +75,23 @@ int saveclient(Cliente* inicio)
 	}
 }
 
+void saveclientB(Cliente* inicio)
+{
+	FILE* fp;
+
+	fp = fopen("client.bin", "wb");
+
+	if (fp != NULL)
+	{
+		Cliente* aux = inicio;
+		while(aux != NULL)
+		{
+			fwrite(aux, sizeof(Cliente), 1, fp);
+			aux = aux->seguinte;
+		}
+		fclose(fp);
+	}
+}
 
 Cliente* readclient()
 {
@@ -97,6 +114,23 @@ Cliente* readclient()
 	return(ci);
 }
 
+Cliente* readclientB()
+{
+	FILE* fp;
+	Cliente* aux = NULL;
+	fp = fopen("client.bin", "rb");
+
+	if (fp != NULL)
+	{
+		Cliente current;
+		while (fread(&current, sizeof(Cliente), 1, fp) == 1)
+		{
+			aux = addclient(aux, current.id, current.name, current.user, current.pass, current.contacto, current.nif, current.morada,current.saldo);
+		}
+		fclose(fp);
+	}
+	return aux;
+}
 
 Cliente* removeclient(Cliente* inicio, int id)
 {
