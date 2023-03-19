@@ -1,7 +1,7 @@
 #pragma once
 #include <stdio.h>
 
-
+//! @brief lista ligada para guardar gestores
 typedef struct gestor {
 	char nome[50];
 	int id;

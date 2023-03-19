@@ -1,7 +1,7 @@
 #pragma once
 #include <stdio.h>
 
-
+//! @brief lista ligada para guardar veiculos
 typedef struct mobilidade {
 	char meio[50];
 	char localizacao[50];
@@ -14,6 +14,7 @@ typedef struct mobilidade {
 	struct mobilidade* seguinte;
 }Mobilidade;
 
+//! @brief lista ligada para guardar historico de reservas
 typedef struct historico {
 
 	char meio[50];

@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 
+//! @brief lista ligada para guardar clientes
 typedef struct cliente
 {
 	int id;
