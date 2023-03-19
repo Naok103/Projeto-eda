@@ -4,20 +4,19 @@
 
 #include "cliente.h"
 
-int existclient(Cliente* inicio, int id) 
-{
-	while(inicio != NULL)
-	{
-		if (inicio->id = id)
-		{
-			return(1);
-		}
-		inicio = inicio->seguinte;	
-	}
-	return(0);
-}
 
 
+//! @brief Funcao para adicionar um novo cliente na lista ligada Cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente
+//! @param id variavel com o id do cliente a inserir
+//! @param name variavel com o nome do cliente a inserir
+//! @param user variavel com o username do cliente a inserir
+//! @param pass variavel com a palavra-pass do cliente a inserir
+//! @param contacto variavel com o contacto do cliente a inserir
+//! @param nif variavel com o nif do cliente a inserir
+//! @param morada variavel com a morada do cliente a inserir
+//! @param saldo variavel com o saldo do cliente a inserir
+//! @return retorna a lista ligada Cliente atualizada com o novo cliente
 Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[], float saldo)
 {
 	Cliente* new = malloc(sizeof(struct cliente));
@@ -40,7 +39,8 @@ Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[
 	}
 }
 
-
+//! @brief Funcao para mostrar as informacoes da lista ligada Cliente na consola
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente
 void showclient(Cliente* inicio)
 {
 	while (inicio != NULL)
@@ -51,7 +51,9 @@ void showclient(Cliente* inicio)
 }
 
 
-
+//! @brief Funcao para guardar as informacoes da lista ligada no ficheiro no ficheiro de texto
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente 
+//! @return a funcao retorna 1 se as informacoes do ficheiro de texto forem guardadas com sucesso na lista ligada Cliente e 0 se nao
 int saveclient(Cliente* inicio)
 {
 	FILE* fp;
@@ -75,6 +77,8 @@ int saveclient(Cliente* inicio)
 	}
 }
 
+//! @brief Funcao para guardar as informacoes da lista ligada no ficheiro binario
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente 
 void saveclientB(Cliente* inicio)
 {
 	FILE* fp;
@@ -93,6 +97,8 @@ void saveclientB(Cliente* inicio)
 	}
 }
 
+//! @brief Funcao para ler a informacao do ficheiro do texto para a lista ligada Cliente
+//! @return retorna a lista ligada Cliente com as informacoes do ficherio de texto
 Cliente* readclient()
 {
 	FILE* fp;
@@ -114,6 +120,8 @@ Cliente* readclient()
 	return(ci);
 }
 
+//! @brief Funcao para ler a informacao do ficheiro binario para a lista ligada Cliente
+//! @return retorna a lista ligada Cliente com as informacoes do ficherio binario
 Cliente* readclientB()
 {
 	FILE* fp;
@@ -132,6 +140,10 @@ Cliente* readclientB()
 	return aux;
 }
 
+//! @brief Funcao para remover um cliente da lista ligada Cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente 
+//! @param id variavel com o id do cliente a remover
+//! @return retorna a lista ligada atualizada
 Cliente* removeclient(Cliente* inicio, int id)
 {
 	Cliente *atual = inicio, *anterior = inicio, *aux;
@@ -166,7 +178,11 @@ Cliente* removeclient(Cliente* inicio, int id)
 
 }
 
-
+//! @brief Funcao para fazer login do cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente
+//! @param user variavel para comparar o username do cliente
+//! @param pass variavel para comparar a palavra-pass do cliente
+//! @return retorna 1 se a palavra-pass e o user name estiverem certos e 0 se nao
 int loginclient(Cliente* inicio,char user[],char pass[])
 {
 	for(inicio;inicio != NULL;inicio = inicio->seguinte)
@@ -183,6 +199,9 @@ int loginclient(Cliente* inicio,char user[],char pass[])
 	return(0);
 }
 
+//! @brief Funcao para mudar informacoes de um cliente na lista ligada Cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente
+//! @param id variavel com o id do cliente
 void changeclient(Cliente* inicio, int id)
 {
 	Cliente* atual = inicio;
@@ -248,6 +267,11 @@ void changeclient(Cliente* inicio, int id)
 	}
 }
 
+//! @brief Funcao para adicionar saldo na conta de um cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Cliente
+//! @param id variavel para identificar o id do cliente
+//! @param saldo variavel para identificar quanto saldo um cliente quer adicionar 
+//! @return retorna a lista ligada Cliente atualizada
 Cliente* addbalance(Cliente* inicio, int id, float saldo)
 {
 	while (inicio != NULL)

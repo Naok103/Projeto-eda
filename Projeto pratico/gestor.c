@@ -4,7 +4,10 @@
 
 #include "gestor.h"
 
-
+//! @brief Funcao para verificar a palavra-pass e o username no login de gestores
+//! @param user variavel para verificar o username
+//! @param pass variavel para verificar a palavra-pass
+//! @return retorna 1 se a palavra-pass e o user name estiverem certos e 0 se nao
 int loginManager(char user[], char pass[])
 {
 	if (strstr(user, "LESI") && strstr(pass, "LESI"))
@@ -21,20 +24,13 @@ int loginManager(char user[], char pass[])
 	
 }
 
-
-int existManager(Gestor* inicio, int id)
-{
-	while (inicio != NULL)
-	{
-		if (inicio->id = id)
-		{
-			return(1);
-		}
-		inicio = inicio->seguinte;
-	}
-	return(0);
-}
-
+//! @brief Funcao para adicionar um novo gesstor na lista ligada Gestor
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor
+//! @param nome variavel com o nome do gestor a inserir
+//! @param id variavel com o id do gestor a insesir
+//! @param contacto variavel com o contacto do gestor a inserir
+//! @param mail variavel com o mail do gestor a insesir
+//! @return retorna a lista ligada Gestor atualizada com o novo gestor
 Gestor* addManager(Gestor* inicio, char nome[], int id, int contacto, char mail[])
 {
 	Gestor* new = malloc(sizeof(struct gestor));
@@ -53,6 +49,10 @@ Gestor* addManager(Gestor* inicio, char nome[], int id, int contacto, char mail[
 	}
 }
 
+//! @brief funcao para remover um gestor da lista ligada Gestor
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor
+//! @param id variavel para identificar o id do gestor
+//! @return retorna a lista ligada Gestor atualizada sem o gestor removido
 Gestor* removeManager(Gestor* inicio, int id)
 {
 	Gestor* atual = inicio, * anterior = inicio, * aux;
@@ -86,6 +86,8 @@ Gestor* removeManager(Gestor* inicio, int id)
 	}
 }
 
+//! @brief funcao para mostrar o conteudo da lista ligada Gestor na consola
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor 
 void showManager(Gestor* inicio)
 {
 	while (inicio != NULL)
@@ -95,6 +97,9 @@ void showManager(Gestor* inicio)
 	}
 }
 
+//! @brief funcao para mudar as informacoe do gestor na lista ligada Gestor
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor 
+//! @param id variavel para identificar o id do gestor
 void changeManager(Gestor* inicio, int id)
 {
 	Gestor* atual = inicio;
@@ -141,6 +146,9 @@ void changeManager(Gestor* inicio, int id)
 	}
 }
 
+//! @brief funcao para guardar as informacoes da lista ligada Gestor num ficheiro de texto
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor
+//! @return a funcao retorna 1 se as informacoes do ficheiro de texto forem guardadas com sucesso na lista ligada Historico e 0 se nao
 int saveManager(Gestor* inicio)
 {
 	FILE* fp;
@@ -164,6 +172,8 @@ int saveManager(Gestor* inicio)
 	}
 }
 
+//! @brief funcao para ler as informacoes do ficheiro de texto para a lista ligada Gestor
+//! @return retorna a lista ligada Gestor atualizada com as informacoes do ficheiro de texto
 Gestor* readManager()
 {
 	FILE* fp;
@@ -185,6 +195,8 @@ Gestor* readManager()
 	return(ci);
 }
 
+//! @brief funcao para ler as informacoes do ficheiro binario para a lista ligada Gestor
+//! @return retorna a lista ligada Gestor atualizada com as informacoes do ficheiro binario
 Gestor* readManagerB()
 {
 	FILE* fp;
@@ -203,6 +215,8 @@ Gestor* readManagerB()
 	return aux;
 }
 
+//! @brief funcao para guardar as informacoes da lista ligada Gestor num ficheiro binario
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Gestor
 void saveManagerB(Gestor* inicio)
 {
 	FILE* fp;

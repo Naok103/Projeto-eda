@@ -4,6 +4,17 @@
 
 #include "meio.h"
 
+//! @brief Funcao para adicionar um novo veiculo a lista ligada Mobilidade
+//! @param inicio apontador a apontar para o inicio da lista ligada Mobilidade
+//! @param meio variavel para o tipo de veiculo a inserir
+//! @param localizacao variavel para a localizacao do veiculo a inserir
+//! @param id variavel para o id do veiculo a inserir
+//! @param bat variavel para a bateria do veiculo a inserir
+//! @param autonomia variavel para a autonomia a inserir
+//! @param custo variavel para o custo a inserir
+//! @param id_r variavel para o id do cliente que vai reservar o veiculo
+//! @param reserva variavel para distinguir se o veiculo esta reservado ou nao
+//! @return 
 Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char localizacao[], int id, float bat, float autonomia, float custo,int id_r,int reserva)
 {
 	Mobilidade* new = malloc(sizeof(struct mobilidade));
@@ -26,6 +37,9 @@ Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char localizacao[], int 
 	}
 }
 
+//! @brief Funcao prar salvar as informacoes da lista ligada Mobilidade num ficheiro de texto
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @return a funcao retorna 1 se as informacoes do ficheiro de texto forem guardadas com sucesso na lista ligada Mobilidade e 0 se nao
 int saveVehicle(Mobilidade* inicio)
 {
 	FILE* fp;
@@ -49,6 +63,8 @@ int saveVehicle(Mobilidade* inicio)
 	}
 }
 
+//! @brief Funcao para ler as informacoes do ficheiro de texto para a lisra ligada Mobilidade
+//! @return retorna a lista ligada Mobilidade atualizada
 Mobilidade* readVehicle()
 {
 	FILE* fp;
@@ -71,6 +87,10 @@ Mobilidade* readVehicle()
 	return(ci);
 }
 
+//! @brief Funcao para remover um veiculo da lista ligada Mobilidade
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id variavel para o id do cliente
+//! @return retorna a lista ligada Mobilidade atualizada
 Mobilidade* removeVehicle(Mobilidade* inicio, int id)
 {
 	Mobilidade* atual = inicio, * anterior = inicio, * aux;
@@ -105,6 +125,8 @@ Mobilidade* removeVehicle(Mobilidade* inicio, int id)
 
 }
 
+//! @brief Funcao para mostrar a lista ligada na consola
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 void showVehicle(Mobilidade* inicio)
 {
 	while (inicio != NULL)
@@ -114,6 +136,9 @@ void showVehicle(Mobilidade* inicio)
 	}
 }
 
+//! @brief Funcao para mudar informacoes do veiculo na lista ligada Mobilidade
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id variavel para o id do cliente
 void changeVehicle(Mobilidade* inicio, int id)
 {
 	Mobilidade* atual = inicio;
@@ -160,6 +185,8 @@ void changeVehicle(Mobilidade* inicio, int id)
 	}
 }
 
+//! @brief Funcao para mostrar a lista ligada Mobilidade na consola com os veiculos disponiveis para reserva
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 void showVehicleD(Mobilidade* inicio)
 {
 	while (inicio != NULL)
@@ -177,6 +204,8 @@ void showVehicleD(Mobilidade* inicio)
 	return(0);
 }
 
+//! @brief Funcao para mostrar a lista ligada Mobilidade na consola com os veiculos reservados
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 void showVehicleR(Mobilidade* inicio) 
 {
 	while (inicio != NULL)
@@ -194,7 +223,11 @@ void showVehicleR(Mobilidade* inicio)
 	return(0);
 }
 
-
+//! @brief Funcao para reservar um veiculo por parte de um cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id_reserva variavel para o id do veiculo 
+//! @param id_client variavel para o id do cliente
+//! @return retorna a lista ligada Mobilidade atualizada
 Mobilidade* reserveVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 {
 	while (inicio != NULL)
@@ -213,6 +246,11 @@ Mobilidade* reserveVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 
 }
 
+//! @brief Funcao para retornar um veiculo por parte de um cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id_reserva variavel para o id do veiculo
+//! @param id_client variavel para o id do cliente
+//! @return retorna a lista ligada Mobilidade atualizada 
 Mobilidade* returnVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 {
 	while (inicio != NULL)
@@ -230,7 +268,8 @@ Mobilidade* returnVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 	}
 }
 
-
+//! @brief Funcao para ordenar por ordem decrescente de autonomia a lista ligada Mobilidade
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 void orderVehicle(Mobilidade* inicio)
 {
 	Mobilidade* i = inicio, * j = NULL;
@@ -249,6 +288,8 @@ void orderVehicle(Mobilidade* inicio)
 	}
 }
 
+//! @brief Funcao para ler informacoes do ficheiro binario para a lista ligada Mobilidade
+//! @return esta funcao retorna a lista ligada Mobilidade com as informacoes presentes no ficheiro binario
 Mobilidade* readVehicleB()
 {
 	FILE* fp;
@@ -267,6 +308,8 @@ Mobilidade* readVehicleB()
 	return aux;
 }
 
+//! @brief funcao para guardar as informacoes da lista ligada Mobilidade num ficherio binario
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade 
 void saveVehicleB(Mobilidade* inicio)
 {
 	FILE* fp;
@@ -285,7 +328,12 @@ void saveVehicleB(Mobilidade* inicio)
 	}
 }
 
-
+//! @brief Funcao para adicionar um historico de uma reserva de um cliente na lista ligada Historico
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Historico 
+//! @param meios apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id_c variavel para o id do cliente a inserir
+//! @param id_m variavel para o id do meio a inserir
+//! @return esta funcao retorna a lista ligada Historico com uma nova reserva
 Historico* addHistoric(Historico* inicio, Mobilidade * meios ,int id_c, int id_m)
 {
 	Historico* new = malloc(sizeof(struct historico));
@@ -315,6 +363,13 @@ Historico* addHistoric(Historico* inicio, Mobilidade * meios ,int id_c, int id_m
 	}
 }
 
+//! @brief Funcao para adicionar um historico de uma reserva de um cliente na lista ligada Historico
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Historico
+//! @param meio variavel para o tipo de meio a inserir
+//! @param localizacao variavel para a localizacao do meio a inserir
+//! @param id_c variavel para o id do cliente a inserir
+//! @param id_m variavel para o id do meio a inserir
+//! @return esta funcao retorna a lista ligada Historico com uma nova reserva
 Historico* addHistoricL(Historico* inicio, char meio[], char localizacao[], int id_c, int id_m)
 {
 	Historico* new = malloc(sizeof(struct historico));
@@ -333,6 +388,9 @@ Historico* addHistoricL(Historico* inicio, char meio[], char localizacao[], int 
 	}
 }
 
+//! @brief Funcao para mostrar na consola o historico de reservas de um cliente
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Historico
+//! @param id_c variavel para o id do cliente
 void showHistoric(Historico* inicio, int id_c) 
 {
 	while (inicio != NULL)
@@ -350,6 +408,8 @@ void showHistoric(Historico* inicio, int id_c)
 	return(0);
 }
 
+//! @brief Funcao para guardar as informacoes da lista ligada Historico no ficheiro binario
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Historico
 void saveHistoricB(Historico* inicio)
 {
 	FILE* fp;
@@ -368,6 +428,8 @@ void saveHistoricB(Historico* inicio)
 	}
 }
 
+//! @brief Funcao para ler informacoes do ficheiro binario para a lista ligada Historico
+//! @return esta funcao retorna a lista ligada Historico com as informacoes presentes no ficheiro binario
 Historico* readHistoricB()
 {
 	FILE* fp;
@@ -387,6 +449,9 @@ Historico* readHistoricB()
 	return aux;
 }
 
+//! @brief Funcao para guardar as informacoes da lista ligada Historico num ficheiro de texto
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Historico
+//! @return a funcao retorna 1 se as informacoes do ficheiro de texto forem guardadas com sucesso na lista ligada Historico e 0 se nao
 int saveHistoric(Historico* inicio)
 {
 	FILE* fp;
