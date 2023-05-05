@@ -223,6 +223,21 @@ void showVehicleR(Mobilidade* inicio)
 	return(0);
 }
 
+//! @brief Funcao para verificar se um meio ja esta reservado
+//! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
+//! @param id variavel com o codigo que identifica o meio
+void existsreserv(Mobilidade* inicio, int id)
+{
+	while (inicio != NULL)
+	{
+		if (inicio->id == id && inicio->id_reserva == 1) {
+			printf("The vehicle you chose is alredy reserved!\n");
+		}
+		inicio = inicio->seguinte;
+		
+	}
+}
+
 //! @brief Funcao para reservar um veiculo por parte de um cliente
 //! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 //! @param id_reserva variavel para o id do veiculo 
@@ -272,17 +287,37 @@ Mobilidade* returnVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 //! @param inicio apontador da variavel a apontar para o inicio da lista ligada Mobilidade
 void orderVehicle(Mobilidade* inicio)
 {
-	Mobilidade* i = inicio, * j = NULL;
-	float aux;
+	Mobilidade* i = inicio, * j = NULL, *aux = NULL;
 	for (i;i!=NULL;i = i->seguinte)
 	{
 		for(j = i->seguinte;j!= NULL;j = j->seguinte)
 		{
 			if (j->autonomia > i->autonomia)
 			{
-				aux = j->autonomia;
+				strcpy(aux->meio, i->meio);
+				strcpy(j->meio, j->meio);
+				strcpy(i->meio, aux->meio);
+				strcpy(aux->localizacao, i->localizacao);
+				strcpy(j->localizacao, j->localizacao);
+				strcpy(i->localizacao, aux->localizacao);
+				aux->id = j->id;
+				j->id = i->id;
+				i->id = aux->id;
+				aux->bat = j->bat;
+				j->bat = i->bat;
+				i->bat = aux->bat;
+				aux->autonomia = j->autonomia;
 				j->autonomia = i->autonomia;
-				i->autonomia = aux;
+				i->autonomia = aux->autonomia;
+				aux->custo = j->custo;
+				j->custo = i->custo;
+				i->custo = aux->custo;
+				aux->id_reserva = j->id_reserva;
+				j->id_reserva = i->id_reserva;
+				i->id_reserva = aux->id_reserva;
+				aux->reserva = j->reserva;
+				j->reserva = i->reserva;
+				i->reserva = aux->reserva;
 			}
 		}
 	}
@@ -325,6 +360,33 @@ void saveVehicleB(Mobilidade* inicio)
 			aux = aux->seguinte;
 		}
 		fclose(fp);
+	}
+}
+
+//! @brief Funcao para inserir o geocodigo na lista ligada Mobilidade
+//! @param location variavel com a localizacao do meio
+char geocodigo(char location[])
+{
+	
+	if((strcmp(location, "braga") == 0) || (strcmp(location, "Braga") == 0) || (strcmp(location, "BRAGA") == 0))
+	{
+		strcpy(location, "calha.recodificado.juros");
+		return (location);
+	}
+	else if (strcmp(location, "porto") == 0 || strcmp(location, "Porto") == 0 || strcmp(location, "PORTO") == 0)
+	{
+		strcpy(location, "acha.topete.ervilhas");
+		return (location);
+	}
+	else if (strcmp(location, "lisboa") == 0 || strcmp(location, "Lisboa") == 0 || strcmp(location, "LISBOA") == 0)
+	{
+		strcpy(location, "dera.espiou.afeto");
+		return (location);
+	}	
+	else
+	{
+		printf("Insira uma localizacao valida(braga,lisboa ou porto!!");
+		exit(0);
 	}
 }
 

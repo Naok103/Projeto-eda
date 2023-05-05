@@ -10,7 +10,7 @@
 //! @return retorna 1 se a palavra-pass e o user name estiverem certos e 0 se nao
 int loginManager(char user[], char pass[])
 {
-	if (strstr(user, "LESI") && strstr(pass, "LESI"))
+	if (strcmp(user, "LESI") == 0 && strcmp(pass, "LESI") == 0)
 	{
 		printf("Login successful!\n");
 		return(1);

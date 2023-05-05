@@ -37,6 +37,8 @@ void showVehicleR(Mobilidade* inicio);
 void orderVehicle(Mobilidade* inicio);
 void saveVehicleB(Mobilidade* inicio);
 Mobilidade* readVehicleB();
+void existsreserv(Mobilidade* inicio, int id);
+char geocodigo(char location[]);
 
 Historico* addHistoric(Historico* inicio, Mobilidade* meios, int id_c, int id_m);
 Historico* addHistoricL(Historico* inicio, char meio[], char localizacao[], int id_c, int id_m);

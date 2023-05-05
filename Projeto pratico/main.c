@@ -101,7 +101,7 @@ int main()
 	//meios = readVehicle();
 	meios = readVehicleB();
 	int id_m, id_r = 0, r = 0;
-	char meio[50], localizaçao[50];
+	char meio[50], localizaçao[] = "";
 	float bat, aut, custo;
 	Historico* historico = NULL;
 	historico = readHistoricB();
@@ -192,12 +192,13 @@ int main()
 				scanf("%d", &id_m);
 				printf("Whats your id?\n");
 				scanf("%d", &id_c);
+				existsreserv(meios, id_m);
 				meios = reserveVehicle(meios, id_m, id_c);
 				historico = addHistoric(historico, meios, id_c, id_m);
 				break;
 			case 7:
 				showVehicleR(meios);
-				printf("Whats the id of the vehicle you wanna reserve?\n");
+				printf("Whats the id of the vehicle you wanna return?\n");
 				scanf("%d", &id_m);
 				printf("Whats your id?\n");
 				scanf("%d", &id_c);
@@ -269,14 +270,15 @@ int main()
 					showManager(manager);
 					break;
 				case 0:
+					saveManager(manager);
+					saveManagerB(manager);
 					exit(0);
 					break;
 				default:
 					printf("Choose an given option!");
 					break;
 				}
-				saveManager(manager);
-				saveManagerB(manager);
+
 			}
 			else if (opcao == 2)
 			{
@@ -286,15 +288,16 @@ int main()
 				case 1:
 					printf("Whats the name of vehicle?\n");
 					scanf("%s", meio);
-					printf("Whats the location of the vehicl?\n");
+					printf("Whats the location of the vehicle?\n");
 					scanf("%s", localizaçao);
+					geocodigo(localizaçao);
 					printf("Whats the level of batery in the vehicle?\n");
 					scanf("%f", &bat);
 					printf("Whats the level of autonomy of the vehicle?\n");
 					scanf("%f", &aut);
 					printf("Whats the id of the vehicle?\n");
 					scanf("%d", &id_m);
-					printf("Whats teh cost of the vehicle?\n");
+					printf("Whats the cost of the vehicle?\n");
 					scanf("%f", &custo);
 					meios = addVehicle(meios, meio, localizaçao, id_m, bat, aut, custo, id_r, r);
 					break;
@@ -358,19 +361,20 @@ int main()
 				case 11:
 					printf("Whats your id?\n");
 					scanf("%d", &id_c);
-					//showHistoric(historico, id_c);
+					showHistoric(historico, id_c);
 					break;
 				case 0:
+					saveVehicle(meios);
+					saveVehicleB(meios);
+					saveclient(client);
+					saveclientB(client);
 					exit(0);
 					break;
 				default:
 					printf("Choose an given option!");
 					break;
 				}
-				saveVehicle(meios);
-				saveVehicleB(meios);
-				saveclient(client);
-				saveclientB(client);
+				
 			}
 		} while (opcao != 0);	
 	}
