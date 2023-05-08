@@ -46,3 +46,31 @@ void Listargrafo(Adjacentes Grafo[])
         printf("\n");
     }
 }
+
+int InserirMeio(Adjacentes g, int vertice, int codigoMeio)
+{
+    while ((g != NULL) && (g->id == codigoMeio))
+        g = g->seguinte;
+    if (g == NULL) return(0);
+    else {
+        CM novo = malloc(sizeof(struct registo3));
+        novo->codigo = codigoMeio;
+        novo->seguinte = g->meio;
+        g->meio = novo;
+        return(1);
+    }
+}
+
+int InserirCliente(Adjacentes g, int vertice, int codigoclient)
+{
+    while ((g != NULL) && (g->id == codigoclient))
+        g = g->seguinte;
+    if (g == NULL) return(0);
+    else {
+        CM novo = malloc(sizeof(struct registo3));
+        novo->codigo = codigoclient;
+        novo->seguinte = g->meio;
+        g->meio = novo;
+        return(1);
+    }
+}

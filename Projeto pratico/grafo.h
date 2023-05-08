@@ -10,6 +10,8 @@ typedef struct reg
 typedef struct registo
 {
     int id; // id de um vértice adjacente
+    Mobilidade *meio;
+    Cliente *cliente;
     float peso; // peso da aresta permitindo transitar para o vértice adjacente
     struct registo* seguinte;
 } Lista, * Adjacentes;

@@ -10,7 +10,7 @@
 #include "meio.h"
 #include "grafo.h"
 
-#define VERTICES 15
+#define VERTICES 10
 int menuC1()
 {
 	int op;
