@@ -14,6 +14,6 @@ typedef struct registo
     struct registo* seguinte;
 } Lista, * Adjacentes;
 
-int inserirAresta(Adjacentes Grafo[], int v1, int v2, float p);
-void inicializarGrafo(Adjacentes Grafo[]);
-void listar(Adjacentes Grafo[]);
+int InserirAresta(Adjacentes Grafo[], int v1, int v2, float p);
+void InicializarGrafo(Adjacentes Grafo[]);
+void Listargrafo(Adjacentes Grafo[]);

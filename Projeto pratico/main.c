@@ -113,11 +113,11 @@ int main()
 	Pilha *p = NULL;
 	float Matriz[VERTICES][VERTICES];
 	Adjacentes porto[VERTICES];
-	inicializarGrafo(porto);
+	InicializarGrafo(porto);
 	Adjacentes braga[VERTICES];
-	inicializarGrafo(braga);
+	InicializarGrafo(braga);
 	Adjacentes lisboa[VERTICES];
-	inicializarGrafo(lisboa);
+	InicializarGrafo(lisboa);
 	int fnode, lnode, peso;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -379,55 +379,75 @@ int main()
 					showHistoric(historico, id_c);
 					break;
 				case 12:
-					printf("Which graph do you wanna use");
-					printf("1-braga;2-lisboa;3-porto");
+					printf("Which graph do you wanna use\n");
+					printf("1-braga;2-lisboa;3-porto\n");
 					scanf("%d", &cid);
 					if (cid == 1)
 					{
 						do
 						{
-							printf("Whats the id of the first node!");
+							printf("Whats the id of the first node!\n");
 							scanf("%d", &fnode);
-							printf("Whats the id of the last node!");
+							printf("Whats the id of the last node!\n");
 							scanf("%d", &lnode);
-							printf("Whats the weight of the edge!");
+							printf("Whats the weight of the edge!\n");
 							scanf("%d", &peso);
-							printf("Do you wanna continue(y/n)!");
+							InserirAresta(braga, fnode, lnode, peso);
+							getchar();
+							printf("Do you wanna continue(y/n)!\n");
 							scanf("%c", &c);
-							inserirAresta(braga, fnode, lnode, peso);
-						} while (c != "n");
+						} while (c != 'n');
 					}
 					else if (cid == 2)
 					{
 						do
 						{
-							printf("Whats the id of the first node!");
+							printf("Whats the id of the first node!\n");
 							scanf("%d", &fnode);
-							printf("Whats the id of the last node!");
+							printf("Whats the id of the last node!\n");
 							scanf("%d", &lnode);
-							printf("Whats the weight of the edge!");
+							printf("Whats the weight of the edge!\n");
 							scanf("%d", &peso);
-							printf("Do you wanna continue(y/n)!");
+							InserirAresta(lisboa, fnode, lnode, peso);
+							printf("Do you wanna continue(y/n)!\n");
 							scanf("%c", &c);
-							inserirAresta(lisboa, fnode, lnode, peso);
 						} while (c != "n");
 					}
 					else if(cid == 3)
 					{
 						do
 						{
-							printf("Whats the id of the first node!");
+							printf("Whats the id of the first location!\n");
 							scanf("%d", &fnode);
-							printf("Whats the id of the last node!");
+							printf("Whats the id of the last location!\n");
 							scanf("%d", &lnode);
-							printf("Whats the weight of the edge!");
+							printf("Whats the distance between the 2 location!\n");
 							scanf("%d", &peso);
-							printf("Do you wanna continue(y/n)!");
+							InserirAresta(porto, fnode, lnode, peso);
+							getchar();
+							printf("Do you wanna continue(y/n)!\n");
 							scanf("%c", &c);
-							inserirAresta(porto, fnode, lnode, peso);
 						} while (c != "n");
 					}
-					break;
+				break;
+				case 13:
+					printf("Which graph do you wanna see\n");
+					printf("1-braga;2-lisboa;3-porto\n");
+					scanf("%d", &cid);
+					if (cid == 1)
+					{
+						Listargrafo(braga);
+					}
+					else if (cid == 2)
+					{
+						Listargrafo(lisboa);
+						
+					}
+					else if (cid == 3)
+					{
+						Listargrafo(porto);
+					}
+				break;
 				case 0:
 					saveVehicle(meios);
 					saveVehicleB(meios);

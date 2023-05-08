@@ -9,7 +9,7 @@
 // Inserção de uma aresta no grafo 'Grafo' com origem em v1 e 
 // destino em v2 e peso p
 // Devolve 1 em caso de sucesso ou 0 caso caso contrário
-int inserirAresta(Adjacentes Grafo[], int v1, int v2, float p)
+int InserirAresta(Adjacentes Grafo[], int v1, int v2, float p)
 {
     Adjacentes novo;
     if ((v1 >= 0) && (v1 < VERTICES) && (v2 >= 0) && (v2 < VERTICES) && (p >= 0))
@@ -24,13 +24,13 @@ int inserirAresta(Adjacentes Grafo[], int v1, int v2, float p)
     else return(0);
 }
 
-void inicializarGrafo(Adjacentes Grafo[])
+void InicializarGrafo(Adjacentes Grafo[])
 {
     int i;
     for (i = 0;i < VERTICES;i++) Grafo[i] = NULL;
 }
 
-void listar(Adjacentes Grafo[])
+void Listargrafo(Adjacentes Grafo[])
 {
     int i;
     Adjacentes aux;

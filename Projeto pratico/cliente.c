@@ -17,7 +17,7 @@
 //! @param morada variavel com a morada do cliente a inserir
 //! @param saldo variavel com o saldo do cliente a inserir
 //! @return retorna a lista ligada Cliente atualizada com o novo cliente
-Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[], float saldo)
+Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[], int contacto, int nif, char morada[], float saldo,int vertice)
 {
 	Cliente* new = malloc(sizeof(struct cliente));
 	if (new != NULL)
@@ -31,6 +31,7 @@ Cliente* addclient(Cliente* inicio, int id, char name[], char user[], char pass[
 		strcpy(new->morada, morada);
 		new->saldo = saldo;
 		new->seguinte = inicio;
+		new->vertice = vertice;
 		return(new);
 	}
 	else
@@ -65,7 +66,7 @@ int saveclient(Cliente* inicio)
 		Cliente* ci = inicio;
 		while (ci != NULL)
 		{
-			fprintf(fp, "%d;%s;%s;%s;%d;%d;%s;%f\n", ci->id, ci->name, ci->user, ci->pass, ci->contacto, ci->nif, ci->morada, ci->saldo);
+			fprintf(fp, "%d;%s;%s;%s;%d;%d;%s;%f;%d\n", ci->id, ci->name, ci->user, ci->pass, ci->contacto, ci->nif, ci->morada, ci->saldo,ci->vertice);
 			ci = ci->seguinte;
 		}
 		fclose(fp);
@@ -105,15 +106,15 @@ Cliente* readclient()
 	Cliente* ci = NULL;
 
 	fp = fopen("Cliente.txt", "r");
-	int ni = 0, i = 0, co = 0, sa = 0;
+	int ni = 0, i = 0, co = 0, sa = 0, ve = 0;
 	char na[50], pa[50], us[50], mo[50];
 
 	if(fp != NULL)
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%d;%[^;];%[^;];%[^;];%d;%d;%[^;];%f\n", &i,&na,&us,&pa,&co,&ni,&mo,&sa);
-			ci = addclient(ci, i, na, us, pa, co, ni, mo,sa);
+			fscanf(fp, "%d;%[^;];%[^;];%[^;];%d;%d;%[^;];%f;%d\n", &i,&na,&us,&pa,&co,&ni,&mo,&sa,&ve);
+			ci = addclient(ci, i, na, us, pa, co, ni, mo,sa,ve);
 		}
 		fclose(fp);
 	}
@@ -133,7 +134,7 @@ Cliente* readclientB()
 		Cliente current;
 		while (fread(&current, sizeof(Cliente), 1, fp) == 1)
 		{
-			aux = addclient(aux, current.id, current.name, current.user, current.pass, current.contacto, current.nif, current.morada,current.saldo);
+			aux = addclient(aux, current.id, current.name, current.user, current.pass, current.contacto, current.nif, current.morada,current.saldo,current.vertice);
 		}
 		fclose(fp);
 	}
