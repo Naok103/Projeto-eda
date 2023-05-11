@@ -10,7 +10,7 @@
 #include "meio.h"
 #include "grafo.h"
 
-#define VERTICES 10
+
 int menuC1()
 {
 	int op;
@@ -60,23 +60,27 @@ int menuG()
 int menuM()
 {
 	int op;
-	printf(" ==============================\n");
-	printf("|         Menu Manager         |\n");
-	printf("|1- Add vehicle                |\n");
-	printf("|2- Remove vehicle             |\n");
-	printf("|3- Change vehicle             |\n");
-	printf("|4- Show vehicle               |\n");
-	printf("|5- Order vehicle              |\n");
-	printf("|6- Add client                 |\n");
-	printf("|7- Remove client              |\n");
-	printf("|8- Show client                |\n");
-	printf("|9- Change client              |\n");
-	printf("|10- Add balance to a client   |\n");
-	printf("|11- Show client historic      |\n");
-	printf("|12- create a graph            |\n");
-	printf("|13- visualize a graph         |\n");
-	printf("|0- Exit                       |\n");
-	printf(" ==============================\n");
+	printf(" ===================================\n");
+	printf("|            Menu Manager           |\n");
+	printf("|1- Add vehicle                     |\n");
+	printf("|2- Remove vehicle                  |\n");
+	printf("|3- Change vehicle                  |\n");
+	printf("|4- Show vehicle                    |\n");
+	printf("|5- Order vehicle                   |\n");
+	printf("|6- Add client                      |\n");
+	printf("|7- Remove client                   |\n");
+	printf("|8- Show client                     |\n");
+	printf("|9- Change client                   |\n");
+	printf("|10- Add balance to a client        |\n");
+	printf("|11- Show client historic           |\n");
+	printf("|12- create a graph                 |\n");
+	printf("|13- create an edge in a graph      |\n");
+	printf("|14- visualize a graph              |\n");
+	printf("|15- add a client to a graph        |\n");
+	printf("|16- add a vehicle to a graph       |\n");
+	printf("|17- Show the vehicles in a graph   |\n");
+	printf("|0- Exit                            |\n");
+	printf(" ===================================\n");
 	scanf("%d", &op);
 	return(op);
 
@@ -110,14 +114,7 @@ int main()
 	Historico* historico = NULL;
 	historico = readHistoricB();
 	int op = 0, c;
-	Pilha *p = NULL;
-	float Matriz[VERTICES][VERTICES];
-	Adjacentes porto[VERTICES];
-	InicializarGrafo(porto);
-	Adjacentes braga[VERTICES];
-	InicializarGrafo(braga);
-	Adjacentes lisboa[VERTICES];
-	InicializarGrafo(lisboa);
+	Grafo *braga = NULL;
 	int fnode, lnode, peso;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -379,74 +376,43 @@ int main()
 					showHistoric(historico, id_c);
 					break;
 				case 12:
-					printf("Which graph do you wanna use\n");
-					printf("1-braga;2-lisboa;3-porto\n");
-					scanf("%d", &cid);
-					if (cid == 1)
+					clear();
+					do
 					{
-						do
-						{
-							printf("Whats the id of the first node!\n");
-							scanf("%d", &fnode);
-							printf("Whats the id of the last node!\n");
-							scanf("%d", &lnode);
-							printf("Whats the weight of the edge!\n");
-							scanf("%d", &peso);
-							InserirAresta(braga, fnode, lnode, peso);
-							getchar();
-							printf("Do you wanna continue(y/n)!\n");
-							scanf("%c", &c);
-						} while (c != 'n');
-					}
-					else if (cid == 2)
-					{
-						do
-						{
-							printf("Whats the id of the first node!\n");
-							scanf("%d", &fnode);
-							printf("Whats the id of the last node!\n");
-							scanf("%d", &lnode);
-							printf("Whats the weight of the edge!\n");
-							scanf("%d", &peso);
-							InserirAresta(lisboa, fnode, lnode, peso);
-							printf("Do you wanna continue(y/n)!\n");
-							scanf("%c", &c);
-						} while (c != "n");
-					}
-					else if(cid == 3)
-					{
-						do
-						{
-							printf("Whats the id of the first location!\n");
-							scanf("%d", &fnode);
-							printf("Whats the id of the last location!\n");
-							scanf("%d", &lnode);
-							printf("Whats the distance between the 2 location!\n");
-							scanf("%d", &peso);
-							InserirAresta(porto, fnode, lnode, peso);
-							getchar();
-							printf("Do you wanna continue(y/n)!\n");
-							scanf("%c", &c);
-						} while (c != "n");
-					}
+						printf("Whats the id of vertex?\n");
+						scanf("%d", &fnode);
+						CriarVertice(braga, fnode);
+						getchar();
+						printf("Do you want to continue(y/n)?\n");
+						scanf("%c", &c);
+					} while (c != 'n');
 				break;
 				case 13:
-					printf("Which graph do you wanna see\n");
-					printf("1-braga;2-lisboa;3-porto\n");
-					scanf("%d", &cid);
-					if (cid == 1)
+					do
 					{
-						Listargrafo(braga);
-					}
-					else if (cid == 2)
-					{
-						Listargrafo(lisboa);
-						
-					}
-					else if (cid == 3)
-					{
-						Listargrafo(porto);
-					}
+						printf("Whats the id of first vertex?\n");
+						scanf("%d", &fnode);
+						printf("Whats the id of last vertex?\n");
+						scanf("%d", &lnode);
+						printf("Whats the height of the edge?\n");
+						scanf("%d", &peso);
+						CriarAresta(&braga, fnode,lnode,peso);
+						getchar();
+						printf("Do you want to continue(y/n)?\n");
+						scanf("%c", &c);
+					} while (c != 'n');
+				break;
+				case 14:
+					printf("Whats the id of the vertex?\n");
+					scanf("%d", &fnode);
+					ListarAdjacentes(&braga, fnode);
+					clear();
+				break;
+				case 15:
+					clear();
+				break;
+				case 16:
+					
 				break;
 				case 0:
 					saveVehicle(meios);

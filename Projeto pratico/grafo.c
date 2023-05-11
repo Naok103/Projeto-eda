@@ -4,56 +4,80 @@
 
 #include "grafo.h"
 
-#define VERTICES 10
 
-// Inserção de uma aresta no grafo 'Grafo' com origem em v1 e 
-// destino em v2 e peso p
-// Devolve 1 em caso de sucesso ou 0 caso caso contrário
-int InserirAresta(Adjacentes Grafo[], int v1, int v2, float p)
+int CriarVertice(Grafo* g, int Id)
 {
-    Adjacentes novo;
-    if ((v1 >= 0) && (v1 < VERTICES) && (v2 >= 0) && (v2 < VERTICES) && (p >= 0))
+    Grafo novo = malloc(sizeof(struct registo1));
+    if (novo != NULL)
     {
-        novo = (Adjacentes)malloc(sizeof(struct registo));
-        novo->id = v2;
-        novo->peso = p;
-        novo->seguinte = Grafo[v1];
-        Grafo[v1] = novo;
+        novo->id = Id;
+        novo->meio = NULL;
+        novo->cliente = NULL;
+        novo->seguinte = g;
+        g = novo;
         return(1);
     }
     else return(0);
 }
 
-void InicializarGrafo(Adjacentes Grafo[])
+int CriarAresta(Grafo g, int vOrigem, int vDestino, float peso)
 {
-    int i;
-    for (i = 0;i < VERTICES;i++) Grafo[i] = NULL;
+    Adjacente novo;
+    
+        while (g->id == vOrigem) g = g->seguinte;
+        novo = malloc(sizeof(struct registo2));
+        if (novo != NULL)
+        {
+            novo->id = vDestino;
+            novo->peso = peso;
+            novo->seguinte = g->adjacentes;
+            g->adjacentes = novo;
+            return(1);
+        }
+        else return(0);
+    
 }
 
-void Listargrafo(Adjacentes Grafo[])
+int existeVertice(Grafo g, int id)
 {
-    int i;
-    Adjacentes aux;
-    for (i = 0;i < VERTICES;i++)
+    while (g != NULL)
     {
-        printf("Vertice %d: ", i);
-        aux = Grafo[i];
+        if (g->id == id)
+        {
+            printf("ola");
+            return(1);
+        }
+        else 
+        {
+            g = g->seguinte;
+        } 
+    }
+    printf("vertice inexeistente\n");
+    exit(0);
+}
+
+void ListarAdjacentes(Grafo g, int id)
+{
+    Adjacente aux;
+    if (existeVertice(g, id))
+    {
+        while (g->id, id) g = g->seguinte;
+        aux = g->adjacentes;
         while (aux != NULL)
         {
-            printf("%d(%.2f) ", aux->id, aux->peso);
+            printf("Adjacente:%s Peso:%.2f\n", aux->id, aux->peso);
             aux = aux->seguinte;
         }
-        printf("\n");
     }
 }
 
-int InserirMeio(Adjacentes g, int vertice, int codigoMeio)
+int InserirMeio(Grafo g, int id, int codigoMeio)
 {
     while ((g != NULL) && (g->id == codigoMeio))
         g = g->seguinte;
     if (g == NULL) return(0);
     else {
-        CM novo = malloc(sizeof(struct registo3));
+        Meios novo = malloc(sizeof(struct registo3));
         novo->codigo = codigoMeio;
         novo->seguinte = g->meio;
         g->meio = novo;
@@ -61,16 +85,35 @@ int InserirMeio(Adjacentes g, int vertice, int codigoMeio)
     }
 }
 
-int InserirCliente(Adjacentes g, int vertice, int codigoclient)
+int Inserircliente(Grafo g, int id, int codigoclient)
 {
     while ((g != NULL) && (g->id == codigoclient))
         g = g->seguinte;
     if (g == NULL) return(0);
     else {
-        CM novo = malloc(sizeof(struct registo3));
+        Clientes novo = malloc(sizeof(struct registo3));
         novo->codigo = codigoclient;
-        novo->seguinte = g->meio;
-        g->meio = novo;
+        novo->seguinte = g->cliente;
+        g->cliente = novo;
         return(1);
+    }
+}
+
+void Listarmeios(Grafo g, int codigomeio)
+{
+    while ((g != NULL) && (g->id == codigomeio))
+    {
+        if (g != NULL)
+        {
+            Meios aux = g->meio;
+            if (aux == NULL) printf("sem meios de transporte\n");
+            else while (aux != NULL)
+            {
+                printf("Codigo meio: %d\n", aux->codigo);
+                aux = aux->seguinte;
+            }
+        }
+        else printf("codigo inexistente\n");
+        g = g->seguinte;
     }
 }

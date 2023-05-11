@@ -370,7 +370,9 @@ char geocodigo(char location[])
 	
 	if((strcmp(location, "braga") == 0) || (strcmp(location, "Braga") == 0) || (strcmp(location, "BRAGA") == 0))
 	{
-		strcpy(location, "calha.recodificado.juros");
+		printf("Choose one of this location!\n");
+		printf("0-");
+		//strcpy(location, "calha.recodificado.juros");
 		return (location);
 	}
 	else if (strcmp(location, "porto") == 0 || strcmp(location, "Porto") == 0 || strcmp(location, "PORTO") == 0)
