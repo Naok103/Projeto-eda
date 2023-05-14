@@ -367,27 +367,57 @@ void saveVehicleB(Mobilidade* inicio)
 //! @param location variavel com a localizacao do meio
 char geocodigo(char location[])
 {
-	
-	if((strcmp(location, "braga") == 0) || (strcmp(location, "Braga") == 0) || (strcmp(location, "BRAGA") == 0))
+	int l;
+	printf("Choose one of this location!\n");
+	printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
+	if (l == 1)
 	{
-		printf("Choose one of this location!\n");
-		printf("0-");
-		//strcpy(location, "calha.recodificado.juros");
-		return (location);
+		strcpy(location, "chique.indice.pessoa");
+		return(location);
 	}
-	else if (strcmp(location, "porto") == 0 || strcmp(location, "Porto") == 0 || strcmp(location, "PORTO") == 0)
+	else if (l == 2)
 	{
-		strcpy(location, "acha.topete.ervilhas");
-		return (location);
+		strcpy(location, "cheio.questionario.avos");
+		return(location);
 	}
-	else if (strcmp(location, "lisboa") == 0 || strcmp(location, "Lisboa") == 0 || strcmp(location, "LISBOA") == 0)
+	else if (l == 3)
 	{
-		strcpy(location, "dera.espiou.afeto");
-		return (location);
-	}	
+		strcpy(location, "ficou.abra.rindo");
+		return(location);
+	}
+	else if (l == 4)
+	{
+		strcpy(location, "param.alfaces.louro");
+		return(location);
+	}
+	else if (l == 5)
+	{
+		strcpy(location, "piou.penhor.bagre");
+		return(location);
+	}
+	else if (l == 6)
+	{
+		strcpy(location, "boate.tirem.direta");
+		return(location);
+	}
+	else if (l == 7)
+	{
+		strcpy(location, "selecionados.notou.taba");
+		return(location);
+	}
+	else if (l == 8)
+	{
+		strcpy(location, "minima.fofoca.cabana");
+		return(location);
+	}
+	else if (l == 9)
+	{
+		strcpy(location, "pudins.povo.baleias");
+		return(location);
+	}
 	else
 	{
-		printf("Insira uma localizacao valida(braga,lisboa ou porto!!");
+		printf("Insira uma opcao valida!!");
 		exit(0);
 	}
 }

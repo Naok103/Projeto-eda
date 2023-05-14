@@ -388,6 +388,7 @@ int main()
 					} while (c != 'n' && c != 'N');
 				break;
 				case 13:
+					clear();
 					do
 					{
 						printf("Whats the id of first vertex?\n");
@@ -403,10 +404,10 @@ int main()
 					} while (c != 'n' && c != 'N');
 				break;
 				case 14:
+					clear();
 					printf("Whats the id of the vertex?\n");
 					scanf("%d", &fnode);
 					ListarAdjacentes(braga, fnode);
-					clear();
 				break;
 				case 15:
 					clear();
