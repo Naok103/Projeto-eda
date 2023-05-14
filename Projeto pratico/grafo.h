@@ -26,9 +26,9 @@ typedef struct registo2
 typedef struct registo1
 {
 	int id; 
-	Adjacente *adjacentes;
-	Meios *meio; 
-	Clientes *cliente;
+	Adjacente adjacentes;
+	Meios meio; 
+	Clientes cliente;
 	struct registo1* seguinte;
 } *Grafo;
 

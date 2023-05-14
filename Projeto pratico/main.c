@@ -381,11 +381,11 @@ int main()
 					{
 						printf("Whats the id of vertex?\n");
 						scanf("%d", &fnode);
-						CriarVertice(braga, fnode);
+						CriarVertice(&braga, fnode);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
-					} while (c != 'n');
+					} while (c != 'n' && c != 'N');
 				break;
 				case 13:
 					do
@@ -396,16 +396,16 @@ int main()
 						scanf("%d", &lnode);
 						printf("Whats the height of the edge?\n");
 						scanf("%d", &peso);
-						CriarAresta(&braga, fnode,lnode,peso);
+						CriarAresta(braga, fnode,lnode,peso);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
-					} while (c != 'n');
+					} while (c != 'n' && c != 'N');
 				break;
 				case 14:
 					printf("Whats the id of the vertex?\n");
 					scanf("%d", &fnode);
-					ListarAdjacentes(&braga, fnode);
+					ListarAdjacentes(braga, fnode);
 					clear();
 				break;
 				case 15:

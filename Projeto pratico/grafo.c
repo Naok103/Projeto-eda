@@ -13,8 +13,8 @@ int CriarVertice(Grafo* g, int Id)
         novo->id = Id;
         novo->meio = NULL;
         novo->cliente = NULL;
-        novo->seguinte = g;
-        g = novo;
+        novo->seguinte = *g;
+        *g = novo;
         return(1);
     }
     else return(0);
@@ -23,18 +23,32 @@ int CriarVertice(Grafo* g, int Id)
 int CriarAresta(Grafo g, int vOrigem, int vDestino, float peso)
 {
     Adjacente novo;
-    
-        while (g->id == vOrigem) g = g->seguinte;
-        novo = malloc(sizeof(struct registo2));
-        if (novo != NULL)
+    if (existeVertice(g, vOrigem) && existeVertice(g, vDestino))
+    {
+        while (g != NULL)
         {
-            novo->id = vDestino;
-            novo->peso = peso;
-            novo->seguinte = g->adjacentes;
-            g->adjacentes = novo;
-            return(1);
+            if (g->id == vOrigem)
+            {
+                novo = malloc(sizeof(struct registo2));
+                if (novo != NULL)
+                {
+                    novo->id = vDestino;
+                    novo->peso = peso;
+                    novo->seguinte = g->adjacentes;
+                    g->adjacentes = novo;
+                    return(1);
+                }
+                else return(0);
+
+            }
+            else
+            {
+                g = g->seguinte;
+            }
         }
-        else return(0);
+
+    }
+    else return(0);
     
 }
 
@@ -44,7 +58,6 @@ int existeVertice(Grafo g, int id)
     {
         if (g->id == id)
         {
-            printf("ola");
             return(1);
         }
         else 
@@ -59,16 +72,25 @@ int existeVertice(Grafo g, int id)
 void ListarAdjacentes(Grafo g, int id)
 {
     Adjacente aux;
-    if (existeVertice(g, id))
+    
+    while (g != NULL)
     {
-        while (g->id, id) g = g->seguinte;
-        aux = g->adjacentes;
-        while (aux != NULL)
+        if (g->id == id) 
         {
-            printf("Adjacente:%s Peso:%.2f\n", aux->id, aux->peso);
-            aux = aux->seguinte;
+            aux = g->adjacentes;
+            while (aux == NULL)
+            {
+                printf("Adjacente:%d Peso:%.2f\n", aux->id, aux->peso);
+                aux = aux->seguinte;
+            }
         }
+        else
+        {
+            g = g->seguinte;
+        }
+        
     }
+    
 }
 
 int InserirMeio(Grafo g, int id, int codigoMeio)
