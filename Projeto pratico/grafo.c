@@ -78,7 +78,7 @@ void ListarAdjacentes(Grafo g, int id)
         if (g->id == id) 
         {
             aux = g->adjacentes;
-            while (aux->id != NULL)
+            while (aux != NULL)
             {
                 printf("Adjacente:%d Peso:%.2f\n", aux->id, aux->peso);
                 aux = aux->seguinte;

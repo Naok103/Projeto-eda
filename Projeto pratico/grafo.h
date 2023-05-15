@@ -38,3 +38,4 @@ int InserirMeio(Grafo g, int id, int codigoMeio);
 int Inserircliente(Grafo g, int id, int codigoclient);
 void Listarmeios(Grafo g, int codigomeio);
 void ListarAdjacentes(Grafo g, int id);
+void GravarGrafo(Grafo g);

@@ -367,7 +367,7 @@ void saveVehicleB(Mobilidade* inicio)
 //! @param location variavel com a localizacao do meio
 char geocodigo(char location[])
 {
-	int l;
+	int l = 0;
 	printf("Choose one of this location!\n");
 	printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
 	if (l == 1)
