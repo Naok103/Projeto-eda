@@ -35,7 +35,9 @@ typedef struct registo1
 int CriarVertice(Grafo* g, int Id);
 int CriarAresta(Grafo g, int vOrigem, int vDestino, float peso);
 int InserirMeio(Grafo g, int id, int codigoMeio);
-int Inserircliente(Grafo g, int id, int codigoclient);
-void Listarmeios(Grafo g, int codigomeio);
+int InserirCliente(Grafo g, int id, int codigoclient);
+void ListarMeios(Grafo g, int id);
 void ListarAdjacentes(Grafo g, int id);
-void GravarGrafo(Grafo g);
+void GravarGrafoA(Grafo g);
+int existeVertice(Grafo g, int id);
+

@@ -13,6 +13,7 @@ int CriarVertice(Grafo* g, int Id)
         novo->id = Id;
         novo->meio = NULL;
         novo->cliente = NULL;
+        novo->adjacentes = NULL;
         novo->seguinte = *g;
         *g = novo;
         return(1);
@@ -71,6 +72,7 @@ int existeVertice(Grafo g, int id)
 
 void ListarAdjacentes(Grafo g, int id)
 {
+    /*
     Adjacente aux;
     
     while (g != NULL)
@@ -90,30 +92,61 @@ void ListarAdjacentes(Grafo g, int id)
         }
         
     }
-    
+   */
+    if (g == NULL) {
+        printf("Grafo não inicializado.\n");
+        return;
+    }
+
+    while (g != NULL && g->id != id)
+    {
+        g = g->seguinte;
+    }
+
+    if (g == NULL) {
+        printf("Vertice nao encontrado.\n");
+        return;
+    }
+
+    if (g->adjacentes == NULL) {
+        printf("Sem adjacentes.\n");
+        return;
+    }
+
+    Adjacente aux = g->adjacentes;
+    while (aux != NULL)
+    {
+        printf("Adjacente: %d Peso: %.2f\n", aux->id, aux->peso);
+        aux = aux->seguinte;
+    }
 }
 
 int InserirMeio(Grafo g, int id, int codigoMeio)
 {
-    while ((g != NULL) && (g->id == codigoMeio))
-        g = g->seguinte;
-    if (g == NULL) return(0);
-    else {
-        Meios novo = malloc(sizeof(struct registo3));
-        novo->codigo = codigoMeio;
-        novo->seguinte = g->meio;
-        g->meio = novo;
-        return(1);
+    while (g != NULL)
+    {
+        if (g->id == id)
+        {
+            Meios novo = malloc(sizeof(struct registo3));
+            novo->codigo = codigoMeio;
+            novo->seguinte = g->meio;
+            g->meio = novo;
+            return(1);
+        }
+        else
+        {
+            g = g->seguinte;
+        }
     }
 }
 
-int Inserircliente(Grafo g, int id, int codigoclient)
+int InserirCliente(Grafo g, int id, int codigoclient)
 {
     while ((g != NULL) && (g->id == codigoclient))
         g = g->seguinte;
     if (g == NULL) return(0);
     else {
-        Clientes novo = malloc(sizeof(struct registo3));
+        Clientes novo = malloc(sizeof(struct registo4));
         novo->codigo = codigoclient;
         novo->seguinte = g->cliente;
         g->cliente = novo;
@@ -121,21 +154,73 @@ int Inserircliente(Grafo g, int id, int codigoclient)
     }
 }
 
-void Listarmeios(Grafo g, int codigomeio)
+void ListarMeios(Grafo g, int id)
 {
-    while ((g != NULL) && (g->id == codigomeio))
+    
+    while (g != NULL)
     {
-        if (g != NULL)
+        if (g->id == id)
         {
             Meios aux = g->meio;
-            if (aux == NULL) printf("sem meios de transporte\n");
-            else while (aux != NULL)
+            if (aux == NULL)
             {
-                printf("Codigo meio: %d\n", aux->codigo);
-                aux = aux->seguinte;
+                printf("sem meios de transporte\n");
+            }
+            else
+            {
+                while (aux != NULL)
+                {
+                    if (aux == NULL)
+                    {
+                        return(0);
+                    }
+                    else
+                    {
+                        printf("Codigo meio: %d\n", aux->codigo);
+                        aux = aux->seguinte;
+                    }
+                }
             }
         }
-        else printf("codigo inexistente\n");
-        g = g->seguinte;
+        else
+        {
+            g = g->seguinte;
+        }
+    }
+}
+
+void GravarGrafoA(Grafo g)
+{
+    Adjacente adj;
+    FILE* fp;
+   
+    int id = 0, peso = 0;
+    fp = fopen("GrafoA.txt", "w");
+    
+
+    if (fp != NULL)
+    {
+        while (g != NULL)
+        {
+            adj = g->adjacentes;
+            if (adj == NULL)
+            {
+                fwrite(fp,"%d;%d;%.2f",g->id,id,peso);
+            }
+            else
+            {
+                while (adj != NULL)
+                {
+                    fwrite(fp, "%d;%d;%d", g->id, adj->id, adj->peso);
+                    adj = adj->seguinte;
+
+                }
+            }
+            g = g->seguinte;
+        }
+    }
+    else
+    {
+        printf("O ficheiro esta corrompido!\n");
     }
 }

@@ -76,9 +76,9 @@ int menuM()
 	printf("|12- create a graph                 |\n");
 	printf("|13- create an edge in a graph      |\n");
 	printf("|14- visualize a graph              |\n");
-	printf("|15- add a client to a graph        |\n");
-	printf("|16- add a vehicle to a graph       |\n");
-	printf("|17- Show the vehicles in a graph   |\n");
+	printf("|15- add a client to a vertex       |\n");
+	printf("|16- add a vehicle to a vertex      |\n");
+	printf("|17- Show the vehicles in a vertex  |\n");
 	printf("|0- Exit                            |\n");
 	printf(" ===================================\n");
 	scanf("%d", &op);
@@ -120,13 +120,13 @@ int main()
 	printf("1-gestor\n");
 	printf("2-cliente\n");
 	scanf("%d", &c);
-	clear();
+	printf("\033[2J\033[H");;
 
 	if (c == 2) 
 	{
 		
 		op = menuC1();
-		clear();
+		printf("\033[2J\033[H");
 		switch (op)
 		{
 		case 1:
@@ -162,7 +162,7 @@ int main()
 			break;
 		}
 		
-		clear();
+		printf("\033[2J\033[H");
 		do
 		{
 			op = menuC2();
@@ -172,14 +172,13 @@ int main()
 				printf("whats the id of account you wanna remove?\n");
 				scanf("%d", &rid);
 				client = removeclient(client, rid);
-				clear();
-				
+				printf("\033[2J\033[H");
 				break;
 			case 2:
 				printf("whats your id?\n");
 				scanf("%d", &id_c);
 				changeclient(client, id_c);
-				clear();
+				printf("\033[2J\033[H");
 				break;
 			case 3:
 				showclient(client);
@@ -236,7 +235,7 @@ int main()
 		printf("whats the password?");
 		scanf("%s", pass);
 		loginManager(user, pass);
-		clear();
+		printf("\033[2J\033[H");
 		int opcao=0;
 		do
 		{
@@ -245,7 +244,7 @@ int main()
 			printf("2- vehicle and client\n");
 			printf("0-exit\n");
 			scanf("%d", &opcao);
-			clear();
+			printf("\033[2J\033[H");
 			if (opcao == 1)
 			{
 				op = menuG();
@@ -262,19 +261,19 @@ int main()
 					printf("Whats your phonenumber?\n");
 					scanf("%d", &contacto_g);
 					manager = addManager(manager, name_g, id_g, contacto_g, mail);
-					clear();
+					printf("\033[2J\033[H");
 					break;
 				case 2:
 					printf("Whats the id of manager you wanna remove?\n");
 					scanf("%d", &id_g);
 					manager = removeManager(manager, id_g);
-					clear();
+					printf("\033[2J\033[H");
 					break;
 				case 3:
 					printf("Whats yout id?\n");
 					scanf("%d", &id_g);
 					changeManager(manager, id_g);
-					clear();
+					printf("\033[2J\033[H");
 					break;
 				case 4:
 					showManager(manager);
@@ -352,7 +351,7 @@ int main()
 					printf("whats the id of account you wanna remove?\n");
 					scanf("%d", &rid);
 					client = removeclient(client, rid);
-					clear();
+					printf("\033[2J\033[H");
 					break;
 				case 8:
 					showclient(client);
@@ -361,7 +360,7 @@ int main()
 					printf("whats your id?\n");
 					scanf("%d", &id_c);
 					changeclient(client, id_c);
-					clear();
+					printf("\033[2J\033[H");
 					break;
 				case 10:
 					printf("whats your id?\n");
@@ -376,7 +375,7 @@ int main()
 					showHistoric(historico, id_c);
 					break;
 				case 12:
-					clear();
+					printf("\033[2J\033[H");
 					do
 					{
 						printf("Whats the id of vertex?\n");
@@ -388,7 +387,7 @@ int main()
 					} while (c != 'n' && c != 'N');
 				break;
 				case 13:
-					clear();
+					printf("\033[2J\033[H");
 					do
 					{
 						printf("Whats the id of first vertex?\n");
@@ -404,22 +403,50 @@ int main()
 					} while (c != 'n' && c != 'N');
 				break;
 				case 14:
-					clear();
+					printf("\033[2J\033[H");
 					printf("Whats the id of the vertex?\n");
 					scanf("%d", &fnode);
 					ListarAdjacentes(braga, fnode);
 				break;
 				case 15:
-					clear();
+					printf("\033[2J\033[H");
+					do
+					{
+						printf("Whats the id of the vertex?\n");
+						scanf("%d", &fnode);
+						printf("Whats the id of the client you wanna add to a vertex?\n");
+						scanf("%d", &id_c);
+						InserirCliente(braga, fnode, id_c);
+						getchar();
+						printf("Do you want to continue(y/n)?\n");
+						scanf("%c", &c);
+					} while (c != 'n' && c != 'N');	
 				break;
 				case 16:
-					
+					printf("\033[2J\033[H");
+					do
+					{
+						printf("Whats the id of the vertex?\n");
+						scanf("%d", &fnode);
+						printf("Whats the id of the vehicle you wanna add to a vertex?\n");
+						scanf("%d", &id_m);
+						InserirMeio(braga, fnode, id_m);
+						getchar();
+						printf("Do you want to continue(y/n)?\n");
+						scanf("%c", &c);
+					} while (c != 'n' && c != 'N');
+				break;
+				case 17:
+					printf("Whats the id of the vertex you wanna see?\n");
+					scanf("%d", &fnode);
+					ListarMeios(braga, fnode);
 				break;
 				case 0:
 					saveVehicle(meios);
 					saveVehicleB(meios);
 					saveclient(client);
 					saveclientB(client);
+					GravarGrafoA(braga);
 					exit(0);
 					break;
 				default:
