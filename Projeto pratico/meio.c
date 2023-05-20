@@ -370,6 +370,7 @@ char geocodigo(char location[])
 	int l = 0;
 	printf("Choose one of this location!\n");
 	printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
+	scanf("%d", &l);
 	if (l == 1)
 	{
 		strcpy(location, "chique.indice.pessoa");

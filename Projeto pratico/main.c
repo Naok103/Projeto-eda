@@ -79,6 +79,7 @@ int menuM()
 	printf("|15- add a client to a vertex       |\n");
 	printf("|16- add a vehicle to a vertex      |\n");
 	printf("|17- Show the vehicles in a vertex  |\n");
+	printf("|18- Show the clients in a vertex   |\n");
 	printf("|0- Exit                            |\n");
 	printf(" ===================================\n");
 	scanf("%d", &op);
@@ -115,6 +116,7 @@ int main()
 	historico = readHistoricB();
 	int op = 0, c;
 	Grafo *braga = NULL;
+	//braga = LerGrafo();
 	int fnode, lnode, peso;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -299,8 +301,6 @@ int main()
 				case 1:
 					printf("Whats the name of vehicle?\n");
 					scanf("%s", meio);
-					printf("Whats the location of the vehicle?\n");
-					scanf("%s", localizaçao);
 					geocodigo(localizaçao);
 					printf("Whats the level of batery in the vehicle?\n");
 					scanf("%f", &bat);
@@ -380,7 +380,8 @@ int main()
 					{
 						printf("Whats the id of vertex?\n");
 						scanf("%d", &fnode);
-						CriarVertice(&braga, fnode);
+						geocodigoV(localizaçao, fnode);
+						CriarVertice(&braga, fnode,localizaçao);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
@@ -430,7 +431,7 @@ int main()
 						scanf("%d", &fnode);
 						printf("Whats the id of the vehicle you wanna add to a vertex?\n");
 						scanf("%d", &id_m);
-						InserirMeio(braga, fnode, id_m);
+						InserirMeio(braga,meios, fnode, id_m);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
@@ -440,6 +441,11 @@ int main()
 					printf("Whats the id of the vertex you wanna see?\n");
 					scanf("%d", &fnode);
 					ListarMeios(braga, fnode);
+				break;
+				case 18:
+					printf("Whats the id of the vertex you wanna see?\n");
+					scanf("%d", &fnode);
+					ListarClientes(braga, fnode);
 				break;
 				case 0:
 					saveVehicle(meios);
