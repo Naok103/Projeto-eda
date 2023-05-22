@@ -80,6 +80,7 @@ int menuM()
 	printf("|16- add a vehicle to a vertex      |\n");
 	printf("|17- Show the vehicles in a vertex  |\n");
 	printf("|18- Show the clients in a vertex   |\n");
+	printf("|19- dijska                         |\n");
 	printf("|0- Exit                            |\n");
 	printf(" ===================================\n");
 	scanf("%d", &op);
@@ -98,7 +99,7 @@ int main()
 	Cliente* client = NULL;
 	client = readclientB();
 	//client = readclient();
-	int id_c, contacto_c, nif, rid;
+	int id_c = 0, contacto_c, nif, rid;
 	float saldo = 0;
 	char name_c[50], user[50], morada[50], pass[50];
 	Gestor* manager = NULL;
@@ -115,8 +116,9 @@ int main()
 	Historico* historico = NULL;
 	historico = readHistoricB();
 	int op = 0, c;
-	Grafo *braga = NULL;
-	//braga = LerGrafo();
+	Grafo* braga = NULL;
+	braga = LerGrafoA(braga);
+	LerGrafoV(braga, meios, client);
 	int fnode, lnode, peso;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -144,9 +146,7 @@ int main()
 			scanf("%d", &contacto_c);
 			printf("whats your nif?\n");
 			scanf("%d", &nif);
-			printf("whats your adress?\n");
-			scanf("%*c");
-			gets(morada);
+			geocodigo(morada);
 			client = addclient(client, id_c, name_c, user, pass, contacto_c, nif, morada, saldo);
 			break;
 		case 2:
@@ -330,8 +330,7 @@ int main()
 					showVehicle(meios);
 					break;
 				case 6:
-					printf("write an id?\n");
-					scanf("%d", &id_c);
+					id_c = idclient(client, id_c);
 					printf("whats your name?\n");
 					scanf("%s", name_c);
 					printf("whats your username?\n");
@@ -342,9 +341,7 @@ int main()
 					scanf("%d", &contacto_c);
 					printf("whats your nif?\n");
 					scanf("%d", &nif);
-					printf("whats your adress?\n");
-					scanf("%*c");
-					gets(morada);
+					geocodigo(morada);
 					client = addclient(client, id_c, name_c, user, pass, contacto_c, nif, morada, saldo);
 					break;
 				case 7:
@@ -417,7 +414,7 @@ int main()
 						scanf("%d", &fnode);
 						printf("Whats the id of the client you wanna add to a vertex?\n");
 						scanf("%d", &id_c);
-						InserirCliente(braga, fnode, id_c);
+						InserirCliente(braga,client, fnode, id_c);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
@@ -447,12 +444,20 @@ int main()
 					scanf("%d", &fnode);
 					ListarClientes(braga, fnode);
 				break;
+				case 19:
+					printf("Whats the id of the vertex?\n");
+					scanf("%d", &fnode);
+					printf("Whats the height of the edge?\n");
+					scanf("%d", &peso);
+					Dijkstra(braga, fnode, peso);
+				break;
 				case 0:
 					saveVehicle(meios);
 					saveVehicleB(meios);
 					saveclient(client);
 					saveclientB(client);
 					GravarGrafoA(braga);
+					GravarGrafoV(braga);
 					exit(0);
 					break;
 				default:

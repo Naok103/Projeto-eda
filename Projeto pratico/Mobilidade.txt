@@ -1,1 +1,4 @@
 1;troti;chique.indice.pessoa;50.000000;20.000000;15.000000;0;0
+1;troti;chique.indice.pessoa;75.000000;50.000000;15.000000;0;0
+2;bike;ficou.abra.rindo;100.000000;155.000000;20.000000;0;0
+3;troti;chique.indice.pessoa;90.000000;95.000000;10.000000;0;0

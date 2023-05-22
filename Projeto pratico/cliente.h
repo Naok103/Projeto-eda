@@ -26,5 +26,7 @@ Cliente* readclient();
 Cliente* addbalance(Cliente* inicio, int id, float saldo);
 void saveclientB(Cliente* inicio);
 Cliente* readclientB();
+int idclient(Cliente* inicio, int id);
+
 
 

@@ -289,4 +289,18 @@ Cliente* addbalance(Cliente* inicio, int id, float saldo)
 	}
 }
 
-
+int idclient(Cliente* inicio,int id)
+{
+	while (inicio != NULL)
+	{
+		if(id < inicio->id)
+		{
+			id = inicio->id;
+		}
+		
+		inicio = inicio->seguinte;
+	}
+	++id;
+	printf("id: %d\n", id);
+	return(id);
+}
