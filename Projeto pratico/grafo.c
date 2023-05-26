@@ -346,9 +346,7 @@ void GravarGrafoA(Grafo g)
 
 Grafo LerGrafoA(Grafo g)
 {
-    
     FILE* fp;
-
     fp = fopen("GrafoA.txt", "r");
 
     int id1 = 0, id2 = 0, peso = 0;
@@ -397,72 +395,7 @@ Grafo LerGrafoA(Grafo g)
     }
 }
 
-void Dijkstra(Grafo g, int origem, int peso)
-{
-    // Inicialização
-    int num_vertices = 0;
-    Grafo atual = g;
-    while (atual != NULL) {
-        num_vertices++;
-        atual = atual->seguinte;
-    }
-
-    int* distancia = malloc(num_vertices * sizeof(int));
-    int* visitado = malloc(num_vertices * sizeof(int));
-    int* antecessor = malloc(num_vertices * sizeof(int));
-
-    for (int i = 0; i < num_vertices; i++) {
-        distancia[i] = INT_MAX; // Distância inicialmente infinita
-        visitado[i] = 0; // Nenhum vértice visitado
-        antecessor[i] = -1; // Antecessor indefinido
-    }
-
-    distancia[origem] = 0; // Distância da origem para ela mesma é 0
-
-    // Algoritmo de Dijkstra
-    for (int i = 0; i < num_vertices - 1; i++) {
-        // Encontrar o vértice com menor distância não visitado
-        int menor_distancia = INT_MAX;
-        int u =0;
-        for (int j = 0; j < num_vertices; j++) {
-            if (!visitado[j] && distancia[j] < menor_distancia) {
-                menor_distancia = distancia[j];
-                u = j;
-            }
-        }
-
-        visitado[u] = 1; // Marcar o vértice como visitado
-
-        // Verificar se atingiu o peso desejado
-        if (distancia[u] >= peso) {
-            break; // Interromper o algoritmo
-        }
-
-        // Atualizar distâncias dos vértices adjacentes
-        Adjacente adj = g[u].adjacentes;
-        while (adj != NULL) {
-            int v = adj->id;
-            int peso = adj->peso;
-            if (!visitado[v] && distancia[u] != INT_MAX && distancia[u] + peso < distancia[v]) {
-                distancia[v] = distancia[u] + peso;
-                antecessor[v] = u;
-            }
-            adj = adj->seguinte;
-        }
-    }
-
-    // Imprimir os resultados
-    for (int i = 0; i < num_vertices; i++) {
-        printf("Vértice %d - Distância: %d - Antecessor: %d\n", i, distancia[i], antecessor[i]);
-    }
-
-    // Liberar memória alocada
-    free(distancia);
-    free(visitado);
-    free(antecessor);
-}
-
-void GravarGrafoV(Grafo g) 
+void GravarGrafoV(Grafo g)
 {
     Meios meios;
     Clientes clientes;
@@ -480,7 +413,7 @@ void GravarGrafoV(Grafo g)
             while (meios != NULL)
             {
                 diff = 111;
-                fprintf(fp, "%d;%d;%d\n", g->id, meios->codigo,diff);
+                fprintf(fp, "%d;%d;%d\n", g->id, meios->codigo, diff);
                 meios = meios->seguinte;
             }
             clientes = g->cliente;
@@ -500,7 +433,7 @@ void GravarGrafoV(Grafo g)
     }
 }
 
-Grafo LerGrafoV(Grafo g, Mobilidade* inicio,Cliente* c)
+Grafo LerGrafoV(Grafo g, Mobilidade* inicio, Cliente* c)
 {
     FILE* fp;
     Mobilidade* meio = inicio;
@@ -518,7 +451,7 @@ Grafo LerGrafoV(Grafo g, Mobilidade* inicio,Cliente* c)
             {
                 InserirMeio(g, meio, id1, id2);
             }
-            else if(diff == 112)
+            else if (diff == 112)
             {
                 InserirCliente(g, cliente, id1, id2);
             }
@@ -531,3 +464,90 @@ Grafo LerGrafoV(Grafo g, Mobilidade* inicio,Cliente* c)
         printf("O ficheiro esta corrompido!");
     }
 }
+
+int Caminhocurto(Grafo g,Grafo b,int raio,int peso,int destino,int origem)
+{
+    int pesso;
+    while (g != NULL)
+    {
+        if (g->id == origem)
+        {
+            Adjacente aux = g->adjacentes;
+            while (aux != NULL)
+            {
+                if (aux->id != destino)
+                {
+                    while (b != NULL)
+                    {
+                        if(b->id = aux->id)
+                        {
+                            Adjacente aux2 = b->adjacentes;
+                            while (aux2 != NULL)
+                            {
+                                if (aux2->id == destino) 
+                                {
+                                    pesso = aux->peso + aux2->peso;
+                                    if(pesso < peso)
+                                    {
+                                        printf("caminho: %d -> %d -> %d\n", g->id,aux->id,aux2->id);
+                                        printf("Distancia total : %d\n", pesso);
+                                        return(2);
+                                    }
+                                    else
+                                    {
+                                        return(1);
+                                    }
+                                }
+                                else
+                                {
+                                    aux2 = aux2->seguinte;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            b = b->seguinte;
+                        }
+                    }
+                }
+                else
+                {
+                    aux = aux->seguinte;
+                }
+            }
+        }
+        else
+        {
+            g = g->seguinte;
+        }
+    }
+}
+
+void MeiosRaio(Grafo g,Grafo b, Mobilidade* inicio, int origem, int raio, char veiculo[])
+{
+    while (g != NULL)
+    {
+        if (g->id == origem)
+        {
+            Adjacente aux = g->adjacentes;
+            while (aux != NULL)
+            {
+                if (aux->peso < raio)
+                {
+                    if (Caminhocurto(g, b, raio, aux->peso, aux->id, origem) == 1)
+                    {
+                        printf("Caminho: %d -> %d\n", origem, aux->id);
+                        printf("Distancia total : %d\n", aux->peso);
+                    }
+                    
+                }
+                aux = aux->seguinte;
+            }
+        }
+        else
+        {
+            g = g->seguinte;
+        }
+    }
+}
+

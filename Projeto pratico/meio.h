@@ -4,7 +4,8 @@
 //! @brief lista ligada para guardar veiculos
 typedef struct mobilidade {
 	char meio[50];
-	char localizacao[50];
+	char geocodigo[50];
+	char local[50];
 	int id;
 	float bat;
 	float autonomia;
@@ -24,7 +25,7 @@ typedef struct historico {
 	struct historico* seguinte;
 }Historico;
 
-Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char localizacao[], int id, float bat, float autonomia, float custo, int id_reserva, int reserva);
+Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char geocodigo[], char local[], int id, float bat, float autonomia, float custo, int id_reserva, int reserva);
 Mobilidade* removeVehicle(Mobilidade* inicio, int id);
 void changeVehicle(Mobilidade* inicio, int id);
 int saveVehicle(Mobilidade* inicio);

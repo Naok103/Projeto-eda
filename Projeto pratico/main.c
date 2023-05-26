@@ -117,8 +117,10 @@ int main()
 	historico = readHistoricB();
 	int op = 0, c;
 	Grafo* braga = NULL;
+	Grafo* braga2 = NULL;
 	braga = LerGrafoA(braga);
-	LerGrafoV(braga, meios, client);
+	braga2 = LerGrafoA(braga2);
+	//LerGrafoV(braga, meios, client);
 	int fnode, lnode, peso;
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
@@ -134,8 +136,7 @@ int main()
 		switch (op)
 		{
 		case 1:
-			printf("write an id?\n");
-			scanf("%d", &id_c);
+			id_c = idclient(client, id_c);
 			printf("whats your name?\n");
 			scanf("%s", name_c);
 			printf("whats your username?\n");
@@ -232,11 +233,15 @@ int main()
 	}
 	else if (c == 1) 
 	{
-		printf("Whats the username?");
-		scanf("%s", user);
-		printf("whats the password?");
-		scanf("%s", pass);
-		loginManager(user, pass);
+		do 
+		{
+			printf("\033[2J\033[H");
+			printf("Whats the username?");
+			scanf("%s", user);
+			printf("whats the password?");
+			scanf("%s", pass);
+		} while (loginManager(user, pass) != 1);
+		
 		printf("\033[2J\033[H");
 		int opcao=0;
 		do
@@ -445,11 +450,14 @@ int main()
 					ListarClientes(braga, fnode);
 				break;
 				case 19:
-					printf("Whats the id of the vertex?\n");
+					printf("Whats your location!\n");
+					printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
 					scanf("%d", &fnode);
-					printf("Whats the height of the edge?\n");
+					printf("How much do you wanna walk?\n");
 					scanf("%d", &peso);
-					Dijkstra(braga, fnode, peso);
+					printf("Whats the type of vehicle you wanna reserve?(troti/bike)\n");
+					scanf("%s", meio);
+					MeiosRaio(braga,braga2, meios, fnode, peso, meio);
 				break;
 				case 0:
 					saveVehicle(meios);

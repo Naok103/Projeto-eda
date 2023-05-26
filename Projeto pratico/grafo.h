@@ -20,6 +20,7 @@ typedef struct registo2
 {
 	int id; 
 	int peso;
+	int visitado;
 	struct registo2* seguinte;
 } *Adjacente;
 
@@ -27,6 +28,7 @@ typedef struct registo1
 {
 	int id;
 	char geo[50];
+	int visitado;
 	Adjacente adjacentes;
 	Meios meio; 
 	Clientes cliente;
@@ -45,9 +47,11 @@ int existeVertice(Grafo g, int id);
 int existeVerticeaux(Grafo g, int id);
 Grafo LerGrafoA(Grafo g);
 char geocodigoV(char location[], int l);
-void Dijkstra(Grafo g, int origem, int peso);
+void MeiosRaio(Grafo g, Grafo b, Mobilidade* inicio, int origem, int peso, char veiculo[]);
 void GravarGrafoV(Grafo g);
 Grafo LerGrafoV(Grafo g, Mobilidade* inicio, Cliente* c);
+int Caminhocurto(Grafo g, Grafo b, int raio, int peso, int destino, int origem);
+
 
 
 

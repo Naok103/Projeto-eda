@@ -297,7 +297,6 @@ int idclient(Cliente* inicio,int id)
 		{
 			id = inicio->id;
 		}
-		
 		inicio = inicio->seguinte;
 	}
 	++id;

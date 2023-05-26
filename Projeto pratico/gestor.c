@@ -18,8 +18,7 @@ int loginManager(char user[], char pass[])
 	else
 	{
 		printf("login unsuccessful!\n");
-		exit(0);
-		return(0);
+		return(2);
 	}
 	
 }

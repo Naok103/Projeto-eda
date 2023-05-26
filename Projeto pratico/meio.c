@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 #include "meio.h"
+#include "grafo.h"
+
 
 //! @brief Funcao para adicionar um novo veiculo a lista ligada Mobilidade
 //! @param inicio apontador a apontar para o inicio da lista ligada Mobilidade
@@ -15,13 +17,15 @@
 //! @param id_r variavel para o id do cliente que vai reservar o veiculo
 //! @param reserva variavel para distinguir se o veiculo esta reservado ou nao
 //! @return 
-Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char localizacao[], int id, float bat, float autonomia, float custo,int id_r,int reserva)
+Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char geocodigo[],char local[], int id, float bat, float autonomia, float custo,int id_r,int reserva)
 {
 	Mobilidade* new = malloc(sizeof(struct mobilidade));
 	if(new != NULL)
 	{
+		geocodigoL(local, id);
 		strcpy(new->meio, meio);
-		strcpy(new->localizacao, localizacao);
+		strcpy(new->geocodigo, geocodigo);
+		strcpy(new->local, local);
 		new->id = id;
 		new->bat = bat;
 		new->autonomia = autonomia;
@@ -51,7 +55,7 @@ int saveVehicle(Mobilidade* inicio)
 		Mobilidade* ci = inicio;
 		while (ci != NULL)
 		{
-			fprintf(fp, "%d;%s;%s;%f;%f;%f;%d;%d\n", ci->id, ci->meio, ci->localizacao, ci->bat,ci->autonomia,ci->custo,ci->id_reserva,ci->reserva);
+			fprintf(fp, "%d;%s;%s;%s;%f;%f;%f;%d;%d\n", ci->id, ci->meio, ci->local, ci->geocodigo, ci->bat, ci->autonomia, ci->custo, ci->id_reserva, ci->reserva);
 			ci = ci->seguinte;
 		}
 		fclose(fp);
@@ -72,15 +76,15 @@ Mobilidade* readVehicle()
 
 	fp = fopen("Mobilidade.txt", "r");
 	int i = 0, id_r = 0, r = 0;
-	char me[50], lo[50];
+	char me[50], lo[50], geo[50];
 	float ba, au, cu;
 
 	if (fp != NULL)
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%d;%[^;];%[^;];%f;%f;%f;%d;%d\n", &i, &me, &lo, &ba, &au, &cu, &id_r,&r);
-			ci = addVehicle(ci, me, lo, i, ba, au, cu,id_r,r);
+			fscanf(fp, "%d;%[^;];%[^;];%[^;];%f;%f;%f;%d;%d\n", &i, &me, &lo, &geo, &ba, &au, &cu, &id_r,&r);
+			ci = addVehicle(ci, me, geo, lo, i, ba, au, cu,id_r,r);
 		}
 		fclose(fp);
 	}
@@ -131,7 +135,7 @@ void showVehicle(Mobilidade* inicio)
 {
 	while (inicio != NULL)
 	{
-		printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->localizacao, inicio->bat, inicio->autonomia, inicio->custo,inicio->id_reserva,inicio->reserva);
+		printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->local, inicio->bat, inicio->autonomia, inicio->custo,inicio->id_reserva,inicio->reserva);
 		inicio = inicio->seguinte;
 	}
 }
@@ -193,7 +197,7 @@ void showVehicleD(Mobilidade* inicio)
 	{
 		if (inicio->reserva == 0)
 		{
-			printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->localizacao, inicio->bat, inicio->autonomia, inicio->custo, inicio->id_reserva, inicio->reserva);
+			printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->local, inicio->bat, inicio->autonomia, inicio->custo, inicio->id_reserva, inicio->reserva);
 			return(1);
 		}
 		else
@@ -212,7 +216,7 @@ void showVehicleR(Mobilidade* inicio)
 	{
 		if (inicio->reserva == 1)
 		{
-			printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->localizacao, inicio->bat, inicio->autonomia, inicio->custo, inicio->id_reserva, inicio->reserva);
+			printf("Vehicle: %s;ID: %d;Location: %s;Batery: %f;Autonomy: %f;Cost: %f;ID_R :%d;Reserve: %d\n", inicio->meio, inicio->id, inicio->local, inicio->bat, inicio->autonomia, inicio->custo, inicio->id_reserva, inicio->reserva);
 			return(1);
 		}
 		else
@@ -297,9 +301,12 @@ void orderVehicle(Mobilidade* inicio)
 				strcpy(aux->meio, i->meio);
 				strcpy(j->meio, j->meio);
 				strcpy(i->meio, aux->meio);
-				strcpy(aux->localizacao, i->localizacao);
-				strcpy(j->localizacao, j->localizacao);
-				strcpy(i->localizacao, aux->localizacao);
+				strcpy(aux->local, i->local);
+				strcpy(j->local, j->local);
+				strcpy(i->local, aux->local);
+				strcpy(aux->geocodigo, i->geocodigo);
+				strcpy(j->geocodigo, j->geocodigo);
+				strcpy(i->geocodigo, aux->geocodigo);
 				aux->id = j->id;
 				j->id = i->id;
 				i->id = aux->id;
@@ -336,7 +343,7 @@ Mobilidade* readVehicleB()
 		Mobilidade current;
 		while (fread(&current, sizeof(Mobilidade), 1, fp) == 1)
 		{
-			aux = addVehicle(aux, current.meio, current.localizacao, current.id, current.bat,current.autonomia,current.custo,current.id_reserva,current.reserva);
+			aux = addVehicle(aux, current.meio, current.geocodigo, current.local, current.id, current.bat,current.autonomia,current.custo,current.id_reserva,current.reserva);
 		}
 		fclose(fp);
 	}
@@ -440,7 +447,7 @@ Historico* addHistoric(Historico* inicio, Mobilidade * meios ,int id_c, int id_m
 			if(meios->id_reserva == id_c && meios->id == id_m)
 			{
 			   strcpy(new->meio, meios->meio);
-		       strcpy(new->localizacao, meios->localizacao);
+		       strcpy(new->localizacao, meios->local);
 			   new->id_c = id_c;
 			   new->id_m = id_m;
 			   new->seguinte = inicio;
