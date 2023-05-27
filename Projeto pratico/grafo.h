@@ -20,7 +20,7 @@ typedef struct registo2
 {
 	int id; 
 	int peso;
-	int visitado;
+	char localizaçao[50];
 	struct registo2* seguinte;
 } *Adjacente;
 
@@ -28,15 +28,15 @@ typedef struct registo1
 {
 	int id;
 	char geo[50];
-	int visitado;
+	char localizaçao[50];
 	Adjacente adjacentes;
 	Meios meio; 
 	Clientes cliente;
 	struct registo1* seguinte;
 } *Grafo;
 
-int CriarVertice(Grafo* g, int Id, char geo[]);
-int CriarAresta(Grafo g, int vOrigem, int vDestino, int peso);
+int CriarVertice(Grafo* g, int Id, char geo[],char local[]);
+int CriarAresta(Grafo g, int vOrigem, int vDestino, int peso,char local[]);
 int InserirMeio(Grafo g, Mobilidade* inicio, int id, int codigoMeio);
 int InserirCliente(Grafo g,Cliente* inicio, int id, int codigoclient);
 void ListarMeios(Grafo g, int id);
@@ -47,10 +47,24 @@ int existeVertice(Grafo g, int id);
 int existeVerticeaux(Grafo g, int id);
 Grafo LerGrafoA(Grafo g);
 char geocodigoV(char location[], int l);
-void MeiosRaio(Grafo g, Grafo b, Mobilidade* inicio, int origem, int peso, char veiculo[]);
+char geocodigoL(char loca[], int d);
 void GravarGrafoV(Grafo g);
 Grafo LerGrafoV(Grafo g, Mobilidade* inicio, Cliente* c);
-int Caminhocurto(Grafo g, Grafo b, int raio, int peso, int destino, int origem);
+int numVertices(Grafo g);
+char* Localizacao(Grafo g, int id);
+void Meio(Mobilidade* meio, char loca[], char tipo[]);
+int obterMenorDistancia(int distancias[], int visitado[], int Vertices);
+void imprimirCaminho(Grafo g, int caminho[], int verticeAtual);
+void imprimirCaminhoMaisCurto(Grafo g, int caminho[], int distancias[], int inicio, int fim);
+//void encontrarCaminhoMaisCurto(Grafo g, Mobilidade* teste15,int vertices, int inicio, int fim, int limite, char tipo[]);
+void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim, int limite, char tipo[]);
+
+
+
+
+
+
+
 
 
 

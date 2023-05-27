@@ -17,12 +17,11 @@
 //! @param id_r variavel para o id do cliente que vai reservar o veiculo
 //! @param reserva variavel para distinguir se o veiculo esta reservado ou nao
 //! @return 
-Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char geocodigo[],char local[], int id, float bat, float autonomia, float custo,int id_r,int reserva)
+Mobilidade* addVehicle(Mobilidade* inicio, char meio[], char local[], char geocodigo[], int id, float bat, float autonomia, float custo,int id_r,int reserva)
 {
 	Mobilidade* new = malloc(sizeof(struct mobilidade));
 	if(new != NULL)
 	{
-		geocodigoL(local, id);
 		strcpy(new->meio, meio);
 		strcpy(new->geocodigo, geocodigo);
 		strcpy(new->local, local);
@@ -84,7 +83,7 @@ Mobilidade* readVehicle()
 		while (!feof(fp))
 		{
 			fscanf(fp, "%d;%[^;];%[^;];%[^;];%f;%f;%f;%d;%d\n", &i, &me, &lo, &geo, &ba, &au, &cu, &id_r,&r);
-			ci = addVehicle(ci, me, geo, lo, i, ba, au, cu,id_r,r);
+			ci = addVehicle(ci, me, lo,geo, i, ba, au, cu,id_r,r);
 		}
 		fclose(fp);
 	}
@@ -343,7 +342,7 @@ Mobilidade* readVehicleB()
 		Mobilidade current;
 		while (fread(&current, sizeof(Mobilidade), 1, fp) == 1)
 		{
-			aux = addVehicle(aux, current.meio, current.geocodigo, current.local, current.id, current.bat,current.autonomia,current.custo,current.id_reserva,current.reserva);
+			aux = addVehicle(aux, current.meio, current.local, current.geocodigo, current.id, current.bat,current.autonomia,current.custo,current.id_reserva,current.reserva);
 		}
 		fclose(fp);
 	}
@@ -428,6 +427,75 @@ char geocodigo(char location[])
 		printf("Insira uma opcao valida!!");
 		exit(0);
 	}
+}
+
+char geocodigoM(char location[],char local[])
+{
+	if (strcmp(location, "chique.indice.pessoa") == 0)
+	{
+		strcpy(local, "Rua do Raio");
+		return(local);
+	}
+	else if (strcmp(location, "cheio.questionario.avos") == 0)
+	{
+		strcpy(local, "Rua do Souto");
+		return(local);
+	}
+	else if (strcmp(location, "ficou.abra.rindo") == 0)
+	{
+		strcpy(local, "Avenida Central");
+		return(local);
+	}
+	else if (strcmp(location, "param.alfaces.louro") == 0)
+	{
+		strcpy(local, "Avenida da Liberdade");
+		return(local);
+	}
+	else if (strcmp(location, "piou.penhor.bagre") == 0)
+	{
+		strcpy(local, "Rua 25 de Abril");
+		return(local);
+	}
+	else if (strcmp(location, "boate.tirem.direta") == 0)
+	{
+		strcpy(local, "Rua dos Chaos");
+		return(local);
+	}
+	else if (strcmp(location, "selecionados.notou.taba") == 0)
+	{
+		strcpy(local, "Rua do Carmo");
+		return(local);
+	}
+	else if (strcmp(location, "minima.fofoca.cabana") == 0)
+	{
+		strcpy(local, "Rua Santa Margarida");
+		return(local);
+	}
+	else if (strcmp(location, "pudins.povo.baleias") == 0)
+	{
+		strcpy(local, "Avenida 31 de Janeiro");
+		return(local);
+	}
+	else
+	{
+		printf("Insira uma opcao valida!!");
+		exit(0);
+	}
+}
+
+int idmeio(Mobilidade* inicio, int id)
+{
+	while (inicio != NULL)
+	{
+		if (id < inicio->id)
+		{
+			id = inicio->id;
+		}
+		inicio = inicio->seguinte;
+	}
+	++id;
+	printf("id: %d\n", id);
+	return(id);
 }
 
 //! @brief Funcao para adicionar um historico de uma reserva de um cliente na lista ligada Historico

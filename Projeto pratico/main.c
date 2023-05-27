@@ -80,7 +80,7 @@ int menuM()
 	printf("|16- add a vehicle to a vertex      |\n");
 	printf("|17- Show the vehicles in a vertex  |\n");
 	printf("|18- Show the clients in a vertex   |\n");
-	printf("|19- dijska                         |\n");
+	printf("|19- Show the vehicles in a range   |\n");
 	printf("|0- Exit                            |\n");
 	printf(" ===================================\n");
 	scanf("%d", &op);
@@ -110,18 +110,17 @@ int main()
 	Mobilidade* meios = NULL;
 	//meios = readVehicle();
 	meios = readVehicleB();
-	int id_m, id_r = 0, r = 0;
+	int id_m = 0, id_r = 0, r = 0;
 	char meio[50], localizaçao[50];
 	float bat, aut, custo;
 	Historico* historico = NULL;
 	historico = readHistoricB();
 	int op = 0, c;
 	Grafo* braga = NULL;
-	Grafo* braga2 = NULL;
 	braga = LerGrafoA(braga);
-	braga2 = LerGrafoA(braga2);
 	//LerGrafoV(braga, meios, client);
-	int fnode, lnode, peso;
+	int fnode, lnode, peso, vertices;
+	char local[50];
 	printf("choose an opcion:\n");
 	printf("1-gestor\n");
 	printf("2-cliente\n");
@@ -306,16 +305,16 @@ int main()
 				case 1:
 					printf("Whats the name of vehicle?\n");
 					scanf("%s", meio);
-					geocodigo(localizaçao);
 					printf("Whats the level of batery in the vehicle?\n");
 					scanf("%f", &bat);
 					printf("Whats the level of autonomy of the vehicle?\n");
 					scanf("%f", &aut);
-					printf("Whats the id of the vehicle?\n");
-					scanf("%d", &id_m);
+					id_m = idmeio(meios, id_m);
+					geocodigo(localizaçao);
+					geocodigoM(localizaçao,local);
 					printf("Whats the cost of the vehicle?\n");
 					scanf("%f", &custo);
-					meios = addVehicle(meios, meio, localizaçao, id_m, bat, aut, custo, id_r, r);
+					meios = addVehicle(meios, meio, localizaçao, local, id_m, bat, aut, custo, id_r, r);
 					break;
 				case 2:
 					printf("Whats the id pf the vehicle you wanna remove?\n");
@@ -383,7 +382,7 @@ int main()
 						printf("Whats the id of vertex?\n");
 						scanf("%d", &fnode);
 						geocodigoV(localizaçao, fnode);
-						CriarVertice(&braga, fnode,localizaçao);
+						CriarVertice(&braga, fnode,localizaçao, local);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
@@ -399,7 +398,7 @@ int main()
 						scanf("%d", &lnode);
 						printf("Whats the height of the edge?\n");
 						scanf("%d", &peso);
-						CriarAresta(braga, fnode,lnode,peso);
+						CriarAresta(braga, fnode,lnode,peso,local);
 						getchar();
 						printf("Do you want to continue(y/n)?\n");
 						scanf("%c", &c);
@@ -453,11 +452,15 @@ int main()
 					printf("Whats your location!\n");
 					printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
 					scanf("%d", &fnode);
+					printf("Whats the location you  wanna go!\n");
+					printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
+					scanf("%d", &lnode);
 					printf("How much do you wanna walk?\n");
 					scanf("%d", &peso);
 					printf("Whats the type of vehicle you wanna reserve?(troti/bike)\n");
 					scanf("%s", meio);
-					MeiosRaio(braga,braga2, meios, fnode, peso, meio);
+					vertices = numVertices(braga);
+					encontrarCaminhoMaisCurto2(braga, meios, fnode, lnode, peso, meio);
 				break;
 				case 0:
 					saveVehicle(meios);
