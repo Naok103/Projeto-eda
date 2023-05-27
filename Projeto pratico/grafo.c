@@ -569,7 +569,7 @@ void Meio(Mobilidade* meio, char loca[], char tipo[])
         if (strcmp(meio->local, loca) == 0 && strcmp(meio->meio, tipo) == 0)
         {
             printf("-------------------------------------------------------------------------------------------------------------------\n");
-            printf("CODIGO %d\nBATERIA %.2f \nLOCALIZACAO %s\nCUSTO P/MIN %.2f\nTIPO %s\n", meio->id, meio->bat, meio->local, meio->custo, meio->meio);
+            printf("CODIGO %d\nBATERIA %.2f \nLOCALIZACAO %s\nCUSTO %.2f\nTIPO %s\n", meio->id, meio->bat, meio->local, meio->custo, meio->meio);
             printf("-------------------------------------------------------------------------------------------------------------------\n");
             encontrado = 1;
         }
@@ -618,60 +618,7 @@ void imprimirCaminhoMaisCurto(Grafo g, int caminho[], int distancias[], int inic
     imprimirCaminho(g, caminho, fim);
     printf("\nDistancia total: %d METROS\n", distancias[fim]);
 }
-/*
-void encontrarCaminhoMaisCurto(Grafo g, Mobilidade* meio, int vertices, int inicio, int fim, int limite, char tipo[])
-{
 
-    int distancias[9];
-    int visitado[9];
-    int caminho[9];
-
-    if ((existeVerticeaux(g, inicio) == 1) || (existeVerticeaux(g, fim) == 1))
-    {
-        printf("Vertice nao encontrado\n");
-    }
-    for (int i = 0; i < vertices; i++)
-    {
-        distancias[i] = INFINITO;
-        visitado[i] = 0;
-        caminho[i] = -1;
-    }
-    distancias[inicio] = 0;
-    for (int i = 0; i < vertices - 1; i++)
-    {
-        int verticeAtual = obterMenorDistancia(distancias, visitado, vertices);
-        visitado[verticeAtual] = 1;
-        Grafo braga = g;
-        while (braga != NULL)
-        {
-            if (braga->id == verticeAtual)
-            {
-                Adjacente adj = braga->adjacentes;
-                while (adj != NULL)
-                {
-                    int verticeAdjacente = adj->id;
-                    int pesoAresta = adj->peso;
-                    if (!visitado[verticeAdjacente] && distancias[verticeAtual] != INFINITO &&
-                        distancias[verticeAtual] + pesoAresta < distancias[verticeAdjacente])
-                    {
-                        distancias[verticeAdjacente] = distancias[verticeAtual] + pesoAresta;
-                        caminho[verticeAdjacente] = verticeAtual;
-                    }
-                    adj = adj->seguinte;
-                }
-                break;
-            }
-            braga = braga->seguinte;
-        }
-    }
-    if (distancias[fim] <= limite)
-    {
-        imprimirCaminhoMaisCurto(g, caminho, distancias, inicio, fim);
-        char* eu = Localizacao(g, fim);
-        Meio(meio, eu, tipo);
-    }
-}
-*/
 
 void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim, int limite, char tipo[])
 {
@@ -729,3 +676,58 @@ void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim,
     free(visitado);
     free(caminho);
 }
+
+/*
+void encontrarCaminhoMaisCurto(Grafo g, Mobilidade* meio, int vertices, int inicio, int fim, int limite, char tipo[])
+{
+
+    int distancias[9];
+    int visitado[9];
+    int caminho[9];
+
+    if ((existeVerticeaux(g, inicio) == 1) || (existeVerticeaux(g, fim) == 1))
+    {
+        printf("Vertice nao encontrado\n");
+    }
+    for (int i = 0; i < vertices; i++)
+    {
+        distancias[i] = INFINITO;
+        visitado[i] = 0;
+        caminho[i] = -1;
+    }
+    distancias[inicio] = 0;
+    for (int i = 0; i < vertices - 1; i++)
+    {
+        int verticeAtual = obterMenorDistancia(distancias, visitado, vertices);
+        visitado[verticeAtual] = 1;
+        Grafo braga = g;
+        while (braga != NULL)
+        {
+            if (braga->id == verticeAtual)
+            {
+                Adjacente adj = braga->adjacentes;
+                while (adj != NULL)
+                {
+                    int verticeAdjacente = adj->id;
+                    int pesoAresta = adj->peso;
+                    if (!visitado[verticeAdjacente] && distancias[verticeAtual] != INFINITO &&
+                        distancias[verticeAtual] + pesoAresta < distancias[verticeAdjacente])
+                    {
+                        distancias[verticeAdjacente] = distancias[verticeAtual] + pesoAresta;
+                        caminho[verticeAdjacente] = verticeAtual;
+                    }
+                    adj = adj->seguinte;
+                }
+                break;
+            }
+            braga = braga->seguinte;
+        }
+    }
+    if (distancias[fim] <= limite)
+    {
+        imprimirCaminhoMaisCurto(g, caminho, distancias, inicio, fim);
+        char* eu = Localizacao(g, fim);
+        Meio(meio, eu, tipo);
+    }
+}
+*/
