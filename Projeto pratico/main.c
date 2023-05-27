@@ -461,6 +461,16 @@ int main()
 					scanf("%s", meio);
 					vertices = numVertices(braga);
 					encontrarCaminhoMaisCurto2(braga, meios, fnode, lnode, peso, meio);
+					printf("Do you wanna reserve some vehicle?\n(y/n)");
+					scanf("%c", &c);
+					if (c == 'y')
+					{
+						printf("Whats your id?\n");
+						scanf("%d", &id_c);
+						printf("Whats the id of vehicle you wanna reserve!\n");
+						scanf("%d", &id_m);
+						reserveVehicle(meios, id_m, id_c);
+					}
 				break;
 				case 0:
 					saveVehicle(meios);

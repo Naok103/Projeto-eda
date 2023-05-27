@@ -560,6 +560,32 @@ char* Localizacao(Grafo g, int id)
     return NULL;
 }
 
+void listarMeiosCaminhoaux(Grafo g, Mobilidade* meio, int caminho[], int verticeAtual, char tipo[]) 
+{
+    if (caminho[verticeAtual] == -1)
+        return;
+
+    listarMeiosCaminhoaux(g, meio, caminho, caminho[verticeAtual], tipo);
+
+    char* loca = Localizacao(g, verticeAtual);
+    Meio(meio, loca, tipo);
+}
+
+
+void listarMeiosCaminho(Grafo g, Mobilidade* meio, int caminho[], int verticeAtual,int inicio, char tipo[])
+{
+    char* local = Localizacao(g, inicio);
+    Meio(meio, local, tipo);
+
+    if (caminho[verticeAtual] == -1)
+        return;
+
+    listarMeiosCaminhoaux(g, meio, caminho, caminho[verticeAtual], tipo);
+
+    char* loca = Localizacao(g, verticeAtual);
+    Meio(meio, loca, tipo);
+}
+
 void Meio(Mobilidade* meio, char loca[], char tipo[])
 {
     int encontrado = 0;
@@ -668,8 +694,7 @@ void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim,
     if (distancias[fim] <= limite)
     {
         imprimirCaminhoMaisCurto(g, caminho, distancias, inicio, fim);
-        char* eu = Localizacao(g, fim);
-        Meio(meio, eu, tipo);
+        listarMeiosCaminho(g, meio, caminho, fim,inicio, tipo);
     }
 
     free(distancias);

@@ -246,11 +246,11 @@ void existsreserv(Mobilidade* inicio, int id)
 //! @param id_reserva variavel para o id do veiculo 
 //! @param id_client variavel para o id do cliente
 //! @return retorna a lista ligada Mobilidade atualizada
-Mobilidade* reserveVehicle(Mobilidade* inicio, int id_reserva, int id_client)
+Mobilidade* reserveVehicle(Mobilidade* inicio, int id_meio, int id_client)
 {
 	while (inicio != NULL)
 	{
-		if (inicio->id == id_reserva)
+		if (inicio->id == id_meio)
 		{
 			inicio->id_reserva = id_client;
 			inicio->reserva = 1; 
@@ -269,11 +269,11 @@ Mobilidade* reserveVehicle(Mobilidade* inicio, int id_reserva, int id_client)
 //! @param id_reserva variavel para o id do veiculo
 //! @param id_client variavel para o id do cliente
 //! @return retorna a lista ligada Mobilidade atualizada 
-Mobilidade* returnVehicle(Mobilidade* inicio, int id_reserva, int id_client)
+Mobilidade* returnVehicle(Mobilidade* inicio, int id_meio, int id_client)
 {
 	while (inicio != NULL)
 	{
-		if ((inicio->id == id_reserva) && (inicio->id_reserva == id_client))
+		if ((inicio->id == id_meio) && (inicio->id_reserva == id_client))
 		{
 			inicio->id_reserva = 0;
 			inicio->reserva = 0;

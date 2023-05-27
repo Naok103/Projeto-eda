@@ -58,6 +58,10 @@ void imprimirCaminho(Grafo g, int caminho[], int verticeAtual);
 void imprimirCaminhoMaisCurto(Grafo g, int caminho[], int distancias[], int inicio, int fim);
 //void encontrarCaminhoMaisCurto(Grafo g, Mobilidade* teste15,int vertices, int inicio, int fim, int limite, char tipo[]);
 void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim, int limite, char tipo[]);
+void listarMeiosCaminho(Grafo g, Mobilidade* meio, int caminho[],int fim,int inicio, char tipo[]);
+void listarMeiosCaminhoaux(Grafo g, Mobilidade* meio, int caminho[], int fim, char tipo[]);
+
+
 
 
 
