@@ -118,6 +118,7 @@ int main()
 	int op = 0, c;
 	Grafo* braga = NULL;
 	braga = LerGrafoA(braga);
+	//braga = LerGrafoB(braga);
 	//LerGrafoV(braga, meios, client);
 	int fnode, lnode, peso, vertices;
 	char local[50];
@@ -476,6 +477,7 @@ int main()
 					saveclientB(client);
 					GravarGrafoA(braga);
 					GravarGrafoV(braga);
+					GravarGrafoB(braga);
 					exit(0);
 					break;
 				default:
