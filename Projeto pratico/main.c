@@ -452,16 +452,13 @@ int main()
 					printf("Whats your location!\n");
 					printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
 					scanf("%d", &fnode);
-					printf("Whats the location you  wanna go!\n");
-					printf("1-Rua do Raio;2-Rua do Souto;3-Avenida Central;4-Avenida da Liberdade;5-Rua 25 de Abril;6-Rua dos Chaos;7-Rua do Carmo;8-Rua Santa Margarida;9-Avenida 31 de Janeiro\n");
-					scanf("%d", &lnode);
 					printf("How much do you wanna walk?\n");
 					scanf("%d", &peso);
 					printf("Whats the type of vehicle you wanna reserve?(troti/bike)\n");
 					scanf("%s", meio);
 					vertices = numVertices(braga);
-					encontrarCaminhoMaisCurto2(braga, meios, fnode, lnode, peso, meio);
-					printf("Do you wanna reserve some vehicle?\n(y/n)");
+					encontrarCaminhosLimite(braga, meios, fnode, peso, meio);
+					printf("Do you wanna reserve some vehicle?(y/n)\n");
 					scanf("%c", &c);
 					if (c == 'y')
 					{

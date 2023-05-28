@@ -646,55 +646,71 @@ void imprimirCaminhoMaisCurto(Grafo g, int caminho[], int distancias[], int inic
 }
 
 
-void encontrarCaminhoMaisCurto2(Grafo g, Mobilidade** meio, int inicio, int fim, int limite, char tipo[])
+void encontrarCaminhosLimite(Grafo g, Mobilidade** meio, int inicio, int limite, char tipo[])
 {
     int v = numVertices(g);
     int* distancias = malloc(v * sizeof(int));
     int* visitado = malloc(v * sizeof(int));
     int* caminho = malloc(v * sizeof(int));
 
-    if ((existeVerticeaux(g, inicio) == 1) || (existeVerticeaux(g, fim) == 1))
+    if (existeVerticeaux(g, inicio) == 1)
     {
         printf("Vertice nao encontrado\n");
+        return;
     }
+
     for (int i = 0; i < v; i++)
     {
         distancias[i] = INFINITO;
         visitado[i] = 0;
         caminho[i] = -1;
     }
+
     distancias[inicio] = 0;
+
     for (int i = 0; i < v - 1; i++)
     {
         int verticeAtual = obterMenorDistancia(distancias, visitado, v);
         visitado[verticeAtual] = 1;
+
         Grafo braga = g;
+
         while (braga != NULL)
         {
             if (braga->id == verticeAtual)
             {
                 Adjacente adj = braga->adjacentes;
+
                 while (adj != NULL)
                 {
                     int verticeAdjacente = adj->id;
                     int pesoAresta = adj->peso;
+
                     if (!visitado[verticeAdjacente] && distancias[verticeAtual] != INFINITO &&
                         distancias[verticeAtual] + pesoAresta < distancias[verticeAdjacente])
                     {
                         distancias[verticeAdjacente] = distancias[verticeAtual] + pesoAresta;
                         caminho[verticeAdjacente] = verticeAtual;
                     }
+
                     adj = adj->seguinte;
                 }
+
                 break;
             }
+
             braga = braga->seguinte;
         }
     }
-    if (distancias[fim] <= limite)
+
+    printf("Caminhos a partir do vertice %d dentro do limite de distancia %d:\n", inicio, limite);
+    for (int i = 0; i < v; i++)
     {
-        imprimirCaminhoMaisCurto(g, caminho, distancias, inicio, fim);
-        listarMeiosCaminho(g, meio, caminho, fim,inicio, tipo);
+        if (distancias[i] <= limite)
+        {
+            imprimirCaminhoMaisCurto(g, caminho, distancias, inicio, i);
+            listarMeiosCaminhoaux(g, meio, caminho, i, tipo);
+        }
     }
 
     free(distancias);
